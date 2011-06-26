@@ -1,0 +1,4 @@
+self: play -> BookCreator 0.1
+
+require:
+    - play

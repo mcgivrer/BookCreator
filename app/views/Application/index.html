@@ -1,0 +1,18 @@
+#{extends 'main.html' /}
+#{set title:'Home' /}
+
+<p>${error}</p>
+
+#{list items:listChapters, as:'chapter'}
+	
+	
+	#{if chapter.equals("{toc}")}
+		#{toc listChaptersTitle /}
+	#{/if}
+	#{else}
+		${chapter.raw()}
+	#{/else}
+
+	<div style="page-break-after"/>
+
+#{/list}
