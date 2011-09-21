@@ -1,18 +1,15 @@
 #{extends 'main.html' /}
-#{set title:'Home' /}
-
-<p>${error}</p>
-
-#{list items:listChapters, as:'chapter'}
-	
-	
-	#{if chapter.equals("{toc}")}
-		#{toc listChaptersTitle /}
-	#{/if}
-	#{else}
-		${chapter.raw()}
-	#{/else}
-
-	<div style="page-break-after"/>
-
-#{/list}
+#{set title:'Play!framework: Un Tutoriel Pas-à-Pas' /}
+#{if error}
+	<p>${error}</p>
+#{/if}
+#{else}
+	#{list items:listChapters, as:'chapter'}
+		#{if chapter.content.equals("{toc}")}
+			#{toc list:listChaptersTitle  /}
+		#{/if}
+		#{if !chapter.content.equals("{pagebreak}") && !chapter.content.equals("{toc}")}
+			#{chapter chapter:chapter /}
+		#{/if}
+	#{/list}
+#{/else}

@@ -2,6 +2,3 @@
 
 require:
     - play
-    - play -> bookcreator
-    - play -> play-odt
-    

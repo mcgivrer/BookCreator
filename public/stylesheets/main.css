@@ -1,8 +1,9 @@
 html{
 	font-family: sans-serif;
+	text-align:justify;
 }
 pre {
-	margin:1em 2em;
+	margin:1em 2em 1em 1em;
 	padding:1em;
 	background-color:#eee;
 	color:#000;
@@ -22,6 +23,10 @@ h2{
 }
 h3,h4,p{
 	margin-left:2em;
+}
+h1{
+	list-style-type:decimal;
+	list-style-position: outside;	
 }
 p{
 	text-align:justify;

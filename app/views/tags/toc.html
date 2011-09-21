@@ -1,6 +1,8 @@
-<h1>Sommaire</h1>
-<ul>
-#{list items:_listChaptersTitle, as:'title'}
-	<li><a href="page/${title}">${title}</a></li>
-#{/list}
-</ul>
+<div class="chapter" name="toc">
+	<h1>Sommaire</h1>
+	<ul>
+		#{list items:_list, as:'chapter'}
+		<li><a href="page/${chapter.url}#">${chapter.title}</a>
+		</li> #{/list}
+	</ul>
+</div>

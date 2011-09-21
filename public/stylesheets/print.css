@@ -1,6 +1,33 @@
 html{
 	font-family: sans-serif;
 }
+
+@page {
+	size:A4 portrait; 
+	marks:cross;
+}
+
+@page :left { 
+	margin-left:1.5cm; 
+	margin-right:2cm;
+}
+
+@page :right { 
+	margin-left:2cm; 
+	margin-right:1.5cm;  
+}
+
+#cover{
+	width:98%;
+	height:98%;
+}
+@page:right {
+	@top {
+		content: string(chapter);
+		text-align: right;
+	}
+}
+
 pre {
 	margin:1em 2em;
 	padding:1em;
@@ -16,13 +43,73 @@ h1,h2,h3,h4{
 	list-style:decimal;
 	border-bottom:1px solid #ccc;
 }
+
 h2{
-	page-break-before;
+	page-break-before:auto;
 }
 h3,h4,p{
 	margin-left:2em;
+}
+h1{
+	page-break-before:always;
+	padding-top:5cm;
+	padding-right:0.5cm;
+	padding-bottom:0.3cm;
+	background-image:url('/images/book/background-title.jpg');
+	background-position: 0.5cm center;
+	background-repeat:no-repeat;
+	background-color:#8E9;
+	text-align:right;
+	border-bottom:1px solid #000;
 }
 hr {
 	border:1px dashed #ddd;
 	page: auto;
 }
+code{
+	color:#009;
+	font-size:12pt
+}
+/* Mode multi columns
+p {
+	column-count:3;
+	column-fill:auto;
+	column-gap:5mm;
+	
+	-moz-column-count:3;
+	-moz-column-fill:auto;
+	-moz-column-gap:5mm;
+}
+*/
+
+/* Mise en valeur des liens
+
+a[href]:after {
+ content:"["attr(href)"]";
+ color:#888;
+ background-color:inherit;
+ font-style:italic;
+ size:7pt;
+}*/
+
+/* Veuves et Orphelins 
+ 
+ TODO
+
+*/
+
+/* 	D'abord les guillemets corrects sont affectés à tous les éléments. 
+Ils ont été définis en Unicode.
+*/
+* {
+ quotes: "\201E" "\201C" "\201A" "\2018";
+}
+/*Enfin les guillemets d'ouverture sont placés devant tous 
+les repères q et blockquote...*/
+q:before, blockquote:before {
+ content:open-quote;
+} 	
+q:after, blockquote:after {
+ content:close-quote;
+}
+

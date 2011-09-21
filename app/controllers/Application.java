@@ -10,6 +10,8 @@ import java.util.Scanner;
 import jj.play.org.eclipse.mylyn.wikitext.core.parser.MarkupParser;
 import jj.play.org.eclipse.mylyn.wikitext.core.parser.builder.HtmlDocumentBuilder;
 import jj.play.org.eclipse.mylyn.wikitext.textile.core.TextileLanguage;
+import models.Chapter;
+import models.TocItem;
 import play.Play;
 import play.mvc.Controller;
 
@@ -41,80 +43,77 @@ public class Application extends Controller {
 	public static void index() {
 		String error = "";
 		StringBuilder text = new StringBuilder();
-		StringBuilder fullBook = new StringBuilder();
-		String fullPage = "";
 		Scanner scan1 = null;
 
-		ArrayList<String> listChapters = new ArrayList<String>();
-		ArrayList<String> listChaptersTitle = new ArrayList<String>();
+		ArrayList<Chapter> listChapters = new ArrayList<Chapter>();
+		ArrayList<TocItem> listChaptersTitle = new ArrayList<TocItem>();
 
 		try {
 			scan1 = new Scanner(new FileInputStream(Play.applicationPath
-					+ "/pages/chapters/chapters.txt"), "UTF-8");
+					+ "/pages/structure.txt"), "UTF-8");
 			while (scan1.hasNextLine()) {
 				String chapterTitle = "";
 				text = new StringBuilder();
 				text.append(scan1.nextLine());
-				
+
 				String tswitch = text.toString();
-				
+
 				// Comment in file chapters.txt
 				if (tswitch.startsWith("#")) {
-					
-					//DO Nothing !
-				
-				// Page break in book
-				}else if (tswitch.equals("-")) {
-					
-					listChapters.add("<div style=\"page-break-after\"></div>");
-				
-				// Table of content
-				}else if (tswitch.equals("{toc}")) {
-				
-					listChapters.add("{toc}");
-					
-				// Cover
-				}else if (tswitch.startsWith("{cover")) {
-					// TODO
-					listChapters.add("<img src=\"\"/>");
-					
-				// Back Cover
-				}else if (tswitch.startsWith("{backcover")) {
-					// TODO
-					listChapters.add("<img src=\"\"/>");
 
-				// chapitre
-				} else if(!tswitch.equals("")){
-					
-					String chapter = loadTextileFile(Play.applicationPath + "/pages/chapters/"
-							+ text.toString()+ ".textile");
-					
-					if(chapter !=null && !chapter.equals("")){
+					// DO Nothing !
+
+					// Page break in book
+				} else if (tswitch.equals("-")) {
+
+					listChapters.add(new Chapter("","{pagebreak}"));
+
+					// Table of content
+				} else if (tswitch.equals("{toc}")) {
+
+					listChapters.add(new Chapter("","{toc}"));
+
+					// Cover
+				} else if (tswitch.startsWith("{cover")) {
+					// TODO
+					listChapters.add(new Chapter("cover","<img id=\"cover\" src=\"images/book/cover.png\"/>"));
+
+					// Back Cover
+				} else if (tswitch.startsWith("{backcover")) {
+					// TODO
+					listChapters
+							.add(new Chapter("backcover","<img id=\"cover\" src=\"images/book/backcover.png\"/>"));
+
+					// chapitre
+				} else if (!tswitch.equals("")) {
+					String page = Play.applicationPath + "/pages/chapters/"
+							+ text.toString() + ".textile";
+					String chapter = loadTextileFile(page);
+
+					if (chapter != null && !chapter.equals("")) {
 						// Add a chapter to the list.
-						chapterTitle = getTitle(chapter.toString());
-						listChapters.add(convertToHtml(chapter));
+						chapterTitle = getTitle(chapter);
+						listChapters.add(new Chapter(text.toString(),convertToHtml(chapter)));
 
 						// retrieve Title from Textile.
-						listChaptersTitle.add(chapterTitle);
+						listChaptersTitle.add(new TocItem(chapterTitle, text.toString()));
 
 					}
 				}
 			}
 
 		} catch (Exception e) {
-			error = "filenotfound: " + e.getMessage();
+			error = "file not found: " + e.getMessage();
 			render(error);
 		} finally {
 			if (scan1 != null)
 				scan1.close();
 		}
 
-		// On le convertie en HTML
+		// On le convertit en HTML
 		renderTemplate("Application/index.html", listChapters,
 				listChaptersTitle);
 
-		// Rendering ODT template !
-		// renderOdt(listChapters, listChaptersTitle);
 	}
 
 	/**
@@ -201,7 +200,7 @@ public class Application extends Controller {
 	 * @return String containing all data from the file.
 	 * @throws FileNotFoundException
 	 */
-	private static String loadTextileFile(String filename){
+	private static String loadTextileFile(String filename) {
 		StringBuilder chapter = new StringBuilder();
 		Scanner scan2 = null;
 		File item = new File(filename);
@@ -217,8 +216,8 @@ public class Application extends Controller {
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			} finally{
-				if (scan2 != null){
+			} finally {
+				if (scan2 != null) {
 					scan2.close();
 				}
 			}
