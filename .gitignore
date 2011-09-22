@@ -1,2 +1,7 @@
 /eclipse
 /tmp
+.classpath
+.project
+/.settings
+/pages/chapters
+/pages/structure.txt
