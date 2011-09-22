@@ -1,0 +1,15 @@
+h2. Installation et premiers pas
+
+Comme je me plais à le vendre auprès de mes collègues de travail, le Play!framework est une avancée notable dans le paysage Java. C'est en effet un framework Agile de développement d'application web, proposant certains précepts en vogue aujourd'hui dans le paysage du web: a savoir, le pattern MVC, la persistance via JPA, des annotations à foison, le principe de règles de notations plutôt que configuration, et bien d'autres encore.  
+
+Bref, tout ce que d'autre framework basés sur d'autres langages proposent depuis quelques temps déjà, et il faut bien avouer que c'était un atout qui manquait sévèrement à notre langage favori qu'est Java.  
+
+Mais c'est maintenant un retard comblé par Play!.
+
+Ok, nous allons nous pencher sur la création de notre première application. 
+
+Pour commencer, assurons nous que notre framework est bien installé.
+
+* [[1.1-Installation du framework sous Windows ou sous Ubuntu]] 
+* [[1.2-Création d'une première application]] 
+* [[1.3-Mise en place de l'environnement de développement]] 

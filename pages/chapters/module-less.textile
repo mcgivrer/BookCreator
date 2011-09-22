@@ -1,0 +1,153 @@
+h2. Module Less
+
+h3. Installation
+
+la commande suivante permet l'installation de ce module:
+
+pre. $> play install less
+
+h3. Utilisation
+
+Nous allons abandonner les fichiers de type  @.css@ avec ce module, au profit d'un nouveau genre de fichier, les @.less@. Créons notre fichier @public/stylesheets/main.less@. Et laissons libre cour à notre côté artistique avec les nouvelles possibilités offertes par LESS !
+
+"LESS":http://www.lesscss.org est un langage en surcouche aux CSS bien connus, apportant les variables et fonctions, et autres pépites à la définition de nos styles.
+
+_Exemple:_
+
+h4. Variables 
+
+* Code LESS
+
+pre. 
+	@color: #4D926F;
+	#header {
+	  color: @color;
+	}
+	h2 {
+	  color: @color;
+	}
+
+* Feuille de styles générée par le module:
+
+pre. 
+	#header {
+	  color: #4D926F;
+	}
+	h2 {
+	  color: #4D926F;
+	}
+
+La syntaxe @[mavariable] permet de définir des valeurs fixe, réutilisable dans la définition des styles au sein de la feuille. Un souplesse ajoutée au CSS, attendue depuis longtemps.
+
+h4. Mixins
+
+Encore plus fort, il est possible de définir un "mixin", une sorte de définition de macro, avec passage de paramètre:
+
+* Code LESS
+
+pre. 
+	.rounded-corners (@radius: 5px) {
+	  border-radius: @radius;
+	  -webkit-border-radius: @radius;
+	  -moz-border-radius: @radius;
+	}
+	#header {
+	  .rounded-corners;
+	}
+	#footer {
+	  .rounded-corners(10px);
+	}
+
+* Feuille de styles générée par le module:
+
+pre. 
+	#header {
+	  border-radius: 5px;
+	  -webkit-border-radius: 5px;
+	  -moz-border-radius: 5px;
+	}
+	#footer {
+	  border-radius: 10px;
+	  -webkit-border-radius: 10px;
+	  -moz-border-radius: 10px;
+	}
+
+Nous pouvons constater la définition de la fonction @.rounded-corners(@@radius: 5px)@, le paramètre @radius@ a une valeur par défaut, ici fixée à "5px".
+
+h4. Règles imbriquées
+
+Une autre notion introduite apr le Code LESS est des plus utiles, et raccourci terriblement les définitions de styles concernant des éléments imbriqués, comme la mise en valeur d'un lien et sa variante sur un évènement de type ".hover".
+
+* Code LESS
+
+pre. 
+	#header {
+	  h1 {
+	    font-size: 26px;
+	    font-weight: bold;
+	  }
+	  p { font-size: 12px;
+	    a { text-decoration: none;
+	      &:hover { border-width: 1px }
+	    }
+	  }
+	}
+
+* Feuille de styles générée par le module:
+
+pre. 
+	#header h1 {
+	  font-size: 26px;
+	  font-weight: bold;
+	}
+	#header p {
+	  font-size: 12px;
+	}
+	#header p a {
+	  text-decoration: none;
+	}
+	#header p a:hover {
+	  border-width: 1px;
+	}
+
+h4. Opérations
+
+Encore plus fort, les opérations sur des valeurs de variables:
+
+* Code LESS
+
+pre. 
+@the-border: 1px;
+@base-color: #111;
+@red:        #842210;
+#header {
+  color: @base-color * 3;
+  border-left: @the-border;
+  border-right: @the-border * 2;
+}
+#footer { 
+  color: @base-color + #003300;
+  border-color: desaturate(@red, 10%);
+}
+
+* Feuille de styles générée par le module:
+
+pre. 
+#header {
+  color: #333;
+  border-left: 1px;
+  border-right: 2px;
+}
+#footer { 
+  color: #114411;
+  border-color: #7d2717;
+}
+
+Une possibilité discutée pour CSS3, déjà en vente chez LESS !
+
+h3. Conclusion 
+
+Il existe bien d'autres possibilités offertes par le langage LESS ! Pour en découvrir tous les raffinement, nous nous rendrons sur le site officiel "www.lesscss.org":http://www.lesscss.org/.
+
+Voilà qui nous fera gagner un temps précieux sur la création de feuille de styles, et évitera les nombreuses répétitions de définition de styles. Certes, un court apprentissage sera nécessaire, mais le gain en productivité par la suite le remboursera largement !
+

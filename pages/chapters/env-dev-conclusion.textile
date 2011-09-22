@@ -1,0 +1,3 @@
+h2. Conclusion
+
+Nous voila avec les prémices d'une belle application Play! Nous avons découvert à travers ces premiers pas, la richesse technique et la complétude proposées par ce fabuleux framework Java. Nous découvrirons au prochain épisode notre première page bien à nous et la mis en place des modules CRUD et Security, natif eux aussi à Play! mais non activés par défaut.

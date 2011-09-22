@@ -1,0 +1,9 @@
+h1. Administration ou BackOffice
+
+Nous avons vu précédemment comment créer une zone d'administration à la "phpmyadmin", via le module CRUD proposé par défaut par le framework Play!
+
+Nous allons voir ici, comment créer notre propre zone d'administration, encore appelé Back-Office, où nous définirons nos propres interfaces pour la gestion des utilisateurs et des jeux.
+
+Nous modifierons pour l'occasion notre modèle de données en intégrant plusieurs notions comme les commentaires, et en découplant l'entité Game représentant les jeux de l'entité User représentant les utilisateurs, en ajoutant un lien @ManyToMany@ entre les entités @Game@ et @User@.
+
+Enfin, nous verrons comment gérer des images via nos entités et comment travailler en mode ajax sur nos formulaires, et en particulier sur l'envoi d'image.

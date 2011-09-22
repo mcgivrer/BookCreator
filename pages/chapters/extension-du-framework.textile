@@ -1,0 +1,7 @@
+h2. Extension du framework
+
+* [[9.1-Création d'un tag]]
+* [[9.2-Création d'un module]]
+* [[9.3-Création d'un plugin]]
+
+@TODO@

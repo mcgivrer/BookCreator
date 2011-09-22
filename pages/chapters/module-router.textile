@@ -1,0 +1,69 @@
+h2. Module Router
+
+Ce module, après installation et activation, nous permettra de déclarer les routes sous forme d'annotations plutôt que dans le fichier @conf/routes@. Une facilité d'utilisation déconcertantes pour une fléxibilité accrue. La documentation complete du module est accessible ici: [[http://www.playframework.org/modules/router-head/home]]. Mais permettons nous une courte démonstration.
+
+h3. Installation
+
+Comme pour ses petits copains, Router suis la magie de Play pour l'installation de module:
+
+pre. $> play install router
+~        _            _ 
+~  _ __ | | __ _ _  _| |
+~ | '_ \| |/ _' | || |_|
+~ |  __/|_|\____|\__ (_)
+~ |_|            |__/   
+~
+~ play! 1.1.1, http://www.playframework.org
+~ framework ID is XXXXXXXXXXX
+~
+~ Will install router-head
+~ This module is compatible with: 1.1
+~ Do you want to install this version (y/n)? y
+~ Installing module router-head...
+~
+~ Fetching http://www.playframework.org/modules/router-head.zip
+~ [--------------------------100%-------------------------] 60.0 KiB/s   
+~ Unzipping...
+~
+~ Module router-head is installed!
+~ You can now use it by add adding this line to application.conf file:
+~
+~ module.router=${play.path}/modules/router-head
+
+^listing 7.5.1 - trace console de l'installation du module Router@^
+
+Et comme c'est indiqué dans la procédure d'installation, n'oublions pas d'activer le module au sein de notre application après l'avoir installé:
+
+pre. module.router=${play.path}/modules/router-head
+
+^listing 7.5.2 - Fichier de configuration @conf/application.conf@^
+
+
+h3. Utilisation
+
+Un ensemble de 6 nouvelles annotations sont maintenant dsiponible pour la spécification des routes au sein même des contrôleurs:
+* @Post
+* @Put
+* @Get
+* @Delete
+* @Head
+* @Any
+
+Ces annotations sont agrémentées des attributs suivants:
+
+* @value@: le chemin pour accéder à la méthode de votre contrôleur. Notons que le format de description d'url respecte le même format que celui décrit dans le fichier de configration @conf/routes@,
+* @priority@ (optionnel): la priorité de la route (plus la valeur est petite, plus la priorité est haute), 
+* @accept@ (optionnel)
+* @format@ (optionnel)
+
+Le plus simple pour l'explication est un exemple:
+
+*TODO*
+
+pre. @Get("/emails/{<.*>folderNames}/{messageId}")
+public static void email(@Bind(separator = "/")String[] folderNames, int messageId) throws Exception {
+   ...
+}
+
+^listing 7.5.3 - exemple de code utilisant l'annotation Get avec des paramètres^
+

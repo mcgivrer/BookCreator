@@ -1,0 +1,140 @@
+h1. Zone d'administration personalisée
+
+h2. Plan de Navigation
+
+Maintenant que nous avons une vrai page d'accueil, il est temps pour nous de nous pencher sur le reste du projet, et surtout, sur le plan de navigation.
+
+Nous avons identifié une page principale pour l'affichage d'accueil de notre site. Une zone où l'utilisateur est authentifié lui permettra de gérer sa propre liste de jeux vidéos. Ensuite, pour que le site soit plus professionnel, nous devons permettre à l'utilisateur de gérer la fiche d'information le concernant sur le site.
+
+Enfin, une zone d'administration, déjà évoquée précèdemment, permettra la gestion par des utilisateurs identifiés comme administrateur (en plus du compte admin par défaut) de l'ensemble des données du site web.
+
+Voila à quoi ressemble le design du site dans le schéma ci-dessous, réalisé comme tout bon web designer qui se respecte, à l'aide d'un papier et d'un stylo.
+
+p=. !{width:800px;}images/design/navigation_plan.jpg(figure 3.1.1 - Plan de navigation)!
+^figure 3.1.1 - Plan de navigation^ 
+
+L'avantage de réaliser ce genre de dessin rapide est qu'il est ensuite facile d'identifier les différents contrôleurs nécessaires à la réalisation de notre site web.
+
+On identifie :
+
+* un contrôleur d'application (@Application@),
+* un controleur d'enregistrement d'utilisateur (@Register@),
+* un contrôleur de sécurité pour le login (@Security@, hérité de @Secure@),
+* un contrôleur de gestion des préférences utilisateur (@Preferences@),
+* les contrôleurs de la zone d'administration:
+** Gestion des utilisateurs (@Users@),
+** Gestion des Jeux (@Games@),
+** d'autres contrôleurs à venir...
+
+Bref, voila toutes les choses que nous allons réaliser dans ce chapitre.
+
+h2. Les templates
+
+Avant de nous lancer dans la réalisation des différentes pages nécessaires à notre site, nous allons réaliser les 2 pages "master" desquelles hériteront toutes nos autres pages.
+
+h3. Template main.html
+
+Le template de la page d'accueil servira pour toutes les pages non administratives, soient, les pages d'accueil, la page personnelle, la page des préférences utilisateur et la page d'ajout de jeu dans la liste de l'utilisateur connecté. 
+
+En voici un schéma de conception en figure 3.2.
+
+p=. !{width:640px;}images/design/template_main_html.jpg(figure 3.1.2 - Template principal)!
+^figure 3.1.2 - Template principal {main.html}^
+
+On disingue dans la zone de navigation, en dessous du header, une petit zone présentant l'avatar, le prénom et le nom de l'utilisateur connecté, suivi d'un lien permettant l'enregistrement d'un utilisateur sur le site(@Register@) et un lien pour la connexion au site (@Login@),  ainsi que d'un pour la déconnexion (@Logout@) et enfin d'un autre la page de préférences de l'utilisateur (@Preferences@). et enfin, tout à droite, un lien vers la zone d'administration (@Administration@), si l'utilisateur en possède les droits.
+
+pre. 
+[user.avatar] [user.firstname] [user.lastname] / [Register] / [login] / [logout] /  [Preferences] ... [Administration] 
+
+bq. Note: L'avatar sera prochainement intégré via l'utilisation du service "Gravatar":http://www.gravatar.com. Pour le moment, nous n'afficherons aucun avatar.
+
+h2. Administration
+
+Nous allons procéder à l'intégration d'un menu d'administration complet, proposant la gestion des utilisateurs, la gestion des fiches de jeux, et nous allons égamement modifier un peu nos entités afin de changer la relation etablie entre les jeux et les utilisateurs, afin de proposer une liste de référence de jeux, et d'offrir la possibilité aux utilisateurs de faire référence à ces jeux et d'en faire leur propre critique et d'établir leur propre note.
+
+Commençons par la partie administration.
+
+h3. Menu du profil "ADMINISTRATOR"
+
+Pour définir ce menu, nous allons passer par un template. Ce template administratif servira pour l'ensemble des pages faisant partie de la zone d'administration, à savoir, comme indiqué précédemment en introduction, la gestion des utilisateurs (@Users@), la gestion des jeux (@Games@), dans un premier temps,  ainsi que la gestion des listes de jeux des utilisateurs dans un deuxième temps.
+
+Ci-dessous, le schéma figure 3.3 représentant ce que nous souhaitons pour ce template.
+
+p=. !images/design/template_administration_html.jpg(figure 3.1.3 - Template administration {administration.html})!
+^figure 3.1.3 - Template administration {administration.html}^
+
+Etudions plus en détail le header de ce fichier:
+
+pre. 
+<header>
+  <h1>&{'site.title'}</h1>
+  <h2>&{'site.subtitle'}</h2>
+  <nav class="menu admin">
+  #{if user}
+    <ul class="user">
+      <li>${user.firstname} ${user.lastname}</li>
+      <li><a href="@{Application.index()}" 
+        title="&{'admin.backhome.label.tooltip'}">& {'admin.backhome.label'}</a></li>
+      <li><a href="@{Preferences.show()}" 
+        title="&{'admin.preferences.label.tooltip'}">&{'admin.preferences.label'}</a></li>
+      <li><a href="@{Secure.logout()}" 
+        title="&{'admin.logout.label.tooltip'}">&{'admin.logout.label'}</a></li>      
+    </ul>
+    #{if user.isRole('ADMINISTRATOR')}
+    <ul class="admin">
+      <li><a href="@{administration.Users.list()}" 
+        title="&{'admin.users.label.tooltip'}">&{'admin.users.label'}</a></li>
+      <li><a href="@{administration.Games.list()}" 
+        title="&{'admin.games.label.tooltip'}">&{'admin.games.label'}</a></li>
+    </ul>
+    #{/if}
+  #{/if}
+  <div class="clear"></div>
+  </nav>
+</header>
+		
+Nous retrouvons la balise @HEADER@ issue du HTML5. Celle-ci délimitant comme son nom l'indique l'entête de la page.
+
+Elle contient entre-autres les balises @H1@ et @H2@ des titre et sous titre du site web. Mais ce n'est pas ce qui nous interresse ici; c'est la balise @NAV@ classée 'menu admin' vers laquelle nous devons tourner notre attention. 
+
+Elle renferme deux listes non ordonnées (@UL@) présentant, pour la première, les actions possibles pour l'utilisateur connecté, la deuxième distribuant les actions d'administration, routant vers les différents contrôleurs CRUD créé dans les précédents chapîtres. 
+
+L'ensemble des deux listes est encapsulé dans un test vérifiant la présence en session d'un object @user:User@.
+
+pre. 
+  #{if user}
+  ...
+  #{/if}
+
+La première balise @UL@ propose dans l'ordre les prénom et nom de l'utilisateur connecté (auxquels nous ajouterons plus tard l'affichage de l'avatar issu de "Gravatar":http://www.gravatar.com), l'accès à la page d'accueil de l'application (@Application.index()@), la page des préférences utilisateur (@Preferences.show()@ que nous découvrirons plus tard), et enfin l'option de déconnexion (@Secure.logout()@). 
+
+pre. 
+<ul class="user">
+  <li>${user.firstname} ${user.lastname}</li>
+  <li><a href="@{Application.index()}" 
+    title="&{'admin.backhome.label.tooltip'}">& {'admin.backhome.label'}</a></li>
+  <li><a href="@{Preferences.show()}" 
+    title="&{'admin.preferences.label.tooltip'}">&{'admin.preferences.label'}</a></li>
+  <li><a href="@{Secure.logout()}" 
+    title="&{'admin.logout.label.tooltip'}">&{'admin.logout.label'}</a></li>      
+</ul>
+
+Nous noterons que la deuxième liste n'est proposée qu'aux utilisateur ayant un profil administrateur via le test @#{if user.isRole('ADMINISTRATOR')}@.
+
+Les deux contrôleurs CRUD ont été déplacés vers un sous package de controllers: @controlleurs.administration@. D'où les liens :
+
+pre. 
+#{if user.isRole('ADMINISTRATOR')}
+<ul class="admin">
+  <li><a href="@{administration.Users.list()}" 
+    title="&{'admin.users.label.tooltip'}">&{'admin.users.label'}</a></li>
+  <li><a href="@{administration.Games.list()}" 
+    title="&{'admin.games.label.tooltip'}">&{'admin.games.label'}</a></li>
+</ul>
+#{/if}
+
+Ce qui nous donnera pour ce template le rendu présenté ci-dessous (figure 3.4).
+
+p=. !h{width:640px;}images/part-3/Capture-3.1.4-administration-index.png(figure 3.1.4 - Rendu du template administration)!
+^figure 3.1.4 - Rendu du template administration^
+

@@ -1,0 +1,7 @@
+h1. Play!framework: Un Tutoriel Pas-à-Pas
+
+p=. Auteur: "Frédéric Delorme":mailto:frederic.delorme@gmail.com
+
+p=. Dernière édition 20/09/2011
+
+p=. (c) 2011 - McGivrer.fr

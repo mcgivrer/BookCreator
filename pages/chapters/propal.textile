@@ -1,0 +1,66 @@
+h2. Proposition
+
+h3. Introduction
+
+Comme dans toute étude de cahier des charges, il est important d'identifier les fonctionnalités demandées et les objets à manipuler. Lançons nous dans l'analyse du cahier des charges.
+
+2. Plan de site / Fonctionnalités
+
+Le premier découpage que nous pouvons faire est un découpage des fonctionnalités demandées en les posant sur le plan de site.
+
+Il est également possible d'y intégrer la notion de rôle des utilisateurs.
+La première passe permet de nous donner la liste hiérarchisée de fonctionnalités suivantes :
+
+* Page d'accueil (rôle visiteur / public)
+** Liste des derniers jeux ajoutés
+** Liste des dernières listes publiques créées
+* Page de connexion (rôle visiteur / public)
+* Page d'enregistrement (rôle visiteur / public)
+* Ma page d'accueil (rôle utilisateur, rôle modérateur, rôle administrateur)
+** Création d'une liste
+** Édition d'une liste
+** Suppression d'une liste
+* Ma liste de jeux (rôle utilisateur, rôle modérateur, rôle administrateur)
+** Ajout d'un jeu
+** Recherche d'un jeu
+** Suppression d'un jeu
+* Fiche d'un Jeu (rôle utilisateur, rôle modérateur, rôle administrateur)
+* Mes préférence utilisateur (rôle utilisateur, rôle modérateur, rôle administrateur)
+* Ma page de modération (rôle modérateur)
+** Workflow en cours : liste des fiches de jeux en attente/en cours de traitement
+** Liste des jeux suivis (modérés) proposant un module de recherche/filtre
+** Gestion des pôles d'intérêts (liste de styles de jeux + tags) à modérer
+** Revue d'une fiche de jeu
+* Administration (rôle administrateur)
+** Gestion des utilisateurs
+** Gestion des fiches de jeux
+** Gestion des listes
+** Gestion des commentaires
+
+h4. Traitements
+
+Dans une deuxième phase,  nous pouvons identifier une première liste de traitements à mettre en œuvre.
+
+* Envoie des invitations de visite d'une liste
+** Utilisateur enregistré
+** Utilisateur non enregistré
+* Moteur de workflow gérant les étapes des différents états avec envoi de mail au auteurs et modérateurs en fonction des états et résultat de traitement.
+** Modérateur
+*** Nouveau jeu, envoyé au modérateur identifié en fonction des pôles d'intérêts, suite à la création d'une nouvelle fiche de jeu
+*** suivi des relectures/revues envoyé en fonction des états des fiches de jeux  dans le workflow,
+** Auteurs
+*** Validation de la fiche par un modérateur.
+*** Demande de correction émise par un modérateur.
+
+!h4. Design principal
+
+Ci-dessous, nous présentons la maquette de la page d'accueil telle qu'elle est proposé à notre client.
+
+
+
+Elle est découpée en zones et sous zones, évoluant en fonction du contexte.
+Nous identifions les habituels entête, contenu et pied de page, eux même découpés en sous-zones. 
+
+Étudions de plus près ces différentes zones.
+
+TODO

@@ -1,0 +1,11 @@
+h2. Environnement de développement
+
+Ok, maintenant, pour pouvoir travailler proprement, Nous nous proposons d'utiliser "Eclipse":http://www.eclipse.org/, dans sa version Helios 3.6. Mais si vous avez un préférence pour "Netbeans":http://netbeans.org/, pas de soucis, nous verrons également comment intégrer notre projet Play! sous cet IDE.
+
+Par la suite, nous n'utiliserons qu'Eclipse, pour des raisons évidente de simplicité de lecture.
+
+* 5.1 "Eclipse":wiki/eclipse
+* 5.2 "NetBeans":wiki/netbean
+* 5.3 "IntelliJ IDEA":wiki/intellij
+* 5.4 "Entités et autres contrôleurs":wiki/entities-and-controllers
+* 5.5 "Conclusion":wiki/en-dev-conclusion

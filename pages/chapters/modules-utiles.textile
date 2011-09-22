@@ -1,0 +1,24 @@
+h1. Modules utiles
+
+Dans la jungle des modules de play, certains modules proposés se révèlent très utiles, voir indispensables. Nous allons nous pencher sur quelques uns d'entre eux pour en voir de plus près l'utilisation.
+
+* [[7.1-Module Router]] @A Venir@
+
+Ce module permet de déclarer les routes sous forme d'annotations plutôt que dans le fichier @conf/routes@. Une facilité d'utilisation déconcertantes pour une fléxibilité accrue.
+	
+* 7.2-Module html5validation @A Venir@
+
+L'arrivée d'HTML5 pousse les framework a s'adapter à ses nouvelles fonctionnalités. C'est le but de ce module, qui, en fonction des types d'input d'un formulaire HTML5, propose les annotations correspondantes pour a validation côté client et serveur des types de contrôles. 
+
+* [[7.3-Module Less]] @A Venir@
+
+Less est le module qui introduit le langage "Less":http://www.lesscss.org dans le framework. Ce langage est une surcouche à CSS qui permet l'utilisation de variables et de fonctions dans ce langage, ajoutant la souplesse au CSS. A nous les fichiers @styles.less@ !
+
+* [[7.4-Module Excel]] @WIP@
+
+Excel est un module qui permet de générer des exports dans le format de fichier ".xls" a partir de nos modèles d'entités. Ainsi il devient extrèmement facile de générer des rapports parfois complexes.
+
+* [[7.5-Module Migrate]] @à Venir@ 
+
+Migrate, comme son nom l'indique servira a procéder à de la migration. Migration certes, mais de quoi ? Et bein de base de données. Pour les personnes qui connaissent déjà un peu Ruby-on-Rails, Migrate est l'outil qui permet de gérer les différentes versions du schéma et des données d'une base de données. Voyons de plus près ce que ce module a à nous offrir.
+

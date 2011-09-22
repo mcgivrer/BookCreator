@@ -1,0 +1,117 @@
+h1. Le cahier des charges
+
+Comme mentionné en préface, le but de ce livre est de découvrir le framework Play! et sa mise en œuvre dans le cadre de la réalisation d'un site web à audience public, où les utilisateurs pourrons créer et gérer un ensemble de liste de jeux vidéo qu'ils pourront partager, soit en les rendant public, donc accessible à toute personne visitant le site , où en les partageant avec des amis désignés, ayant à minima une adresse email. Ainsi, à la réception d'un mail proposant la visualisation d'une url cryptée, ces dernier seront capable de visualiser la liste de jeux.
+
+h2. Population
+
+Le site web se découpera en plusieurs zones, accessibles suivant les droits attribués à l'utilisateur connecté (ou non).
+Nous distinguerons principalement, les utilisateurs enregistrés et les simples visiteurs.
+
+h3. Les visiteurs
+
+Les personnes non enregistrées sur le site web pourront ne pourrons accéder qu'au contenu public, a savoir la liste des jeux créés dans le système, mais sans possibilité de créer sa propre liste. Seul un utilisateur enregistré aura ce droit.
+
+h3. Les personnes enregistrées
+
+h4. Utilisateur
+
+Les personnes ayant créé un compte utilisateur, à travers leur email, auront la possibilité de créer une ou plusieurs listes de jeux vidéo. Elle pourrons soit utiliser les fiches des jeux déjà existantes et apporter leur propres commentaires sur ceux-ci, soit enrichir la base des fiches des jeux en créant leur propres fiches « jeux ».
+
+Les nouvelles fiches ainsi crées seront soumise à un workflow de validation auprès des modérateurs du site.
+
+Les utilisateurs pourront créer autant de listes nommées qu'ils le souhaitent, déplacer des fiches d'une liste à une autre, supprimer une liste, en éditer les éléments (ajout, suppression d'une fiche), ajouter des commentaires au niveau de la liste.
+
+Les listes ainsi créées pourront être rendues accessibles de façon public, ou être proposées en accès restreint à une liste de contacts via leurs comptes existant sur le site, ou en invitant les autres personnes, par email, à s'enregistrer sur le site pour avoir accès au contenu désiré.
+
+Les utilisateurs pourront également ouvrir ou non aux commentaires leurs propres listes.
+Enfin, ils devront créer et maintenir à jour leurs profil, en indiquant impérativement, nom, prénom, email, et optionnellement, url de blog ou autres, proposer de les suivre sur différents site sociaux (Twitter1, Facebook2, etc...).
+
+Un avatar pourra également être proposé, en téléchargement, ou en utilisant l'avatar appartenant à l'utilisateur et déclaré sur le site Gravatar.com3.
+
+h4. Modérateur
+
+Les modérateurs auront non seulement les mêmes possibilités que celles déjà offertes aux utilisateurs, mais auront également la charge de la validation des nouvelles fiches de jeux, créées et proposées par les utilisateurs. Les fiches leurs seront attribuées en fonction de la qualification du jeu à travers un jeu de tags (taxonomie).
+
+Cette validation se fera au travers d'une relecture de la fiche pour apporter des correction d'ordre grammaticale ou orthographique, le cas échéant, le retour de la fiche à son auteur pour correction, ou soumission à un des autres modérateurs pour une nouvelle qualification.
+
+A l'issue de la validation, la fiche est rendue visible auprès de la communauté des visiteurs et autres utilisateurs.
+
+h4. Administrateur
+
+Les administrateurs ont pour rôle la gestion des comptes utilisateurs (gestion, bannissement, réactivation, suppression), de leurs droits, et la gestion des contenus (espace de stockage, etc...).
+ainsi, un administrateur pourra augmenter, ou diminuer les droits un utilisateur enregistré, le bannir, modifier sa fiche (sur demande).
+
+h4. Transverse
+
+Tout utilisateur et ou visiteur aura la possibilité d'alerter les modérateurs quant-à toute présence dans une fiche, un test, un commentaire, d'abus de langage et où de matière relevant de copyright.
+
+h2. Les entités
+
+On dénombre plusieurs entités identifiés au travers des rôles abordés précédemment :
+
+* Les jeux
+* Les listes
+* Les utilisateurs
+* les rôles
+* Les commentaires
+
+Abordons tour à tour chacune de ces enttiés.
+
+h3. Les jeux
+
+Un jeu, ou fiche de jeu, est constitué des attributs suivant :
+
+*title*
+
+Le titre du jeu sera utilisé via un encodage ad hoc pour composer l'URL unique conduisant à la fiche du jeu.
+
+*description*
+
+Cette courte description, limité en nombre de caractères, sera présentée dans les listes lors de recherche de fiche de jeux, où dans les zones d'affichage ne réservant que peu d'espace.
+
+*platform*
+
+La plateforme permet de qualifier sur quel matériel le jeu est sensé tourné. Cet argument peut-être multivaluée et peut porter une information supplémentaire permettant de savoir à quelle plateforme l'utilisateur rattache prioritairement cette fiche.
+
+*style*
+
+A choisir parmi les valeurs d'une liste ouverte, car très extensible de par même la nature des jeux proposés, elle permettra de qualifier un groupe d'appartenance du jeu décrit dans cette fiche.
+
+*tags*
+
+Une série de tags sera également utilisée pour affiner la classification du jeu. Ces tags serviront également à trouver des ressemblances entre différents jeux.
+
+*test*
+
+Si l'utilisateur le souhaite, il pourra proposer son propre test du jeu. C'est un texte riche dans lequel il pourra ajouter photo (copie d'écran) ou vidéo, qu'il devra préalablement uploader sur un compte personnel sur un site externe (par exemple Youtube4, …).
+
+*covers*
+
+La fiche de jeu pourra (devra?) comporter l'image de la pochette du jeu. Elle pourra être le résultat d'une numérisation personnel (en qualité et résolution limitées) ou bien relever d'une recherche à travers l'API Amazon de recherche de produit (Amazon Advertising API).
+Cet attribut sera multivalué en fonction du nombre de plateformes identifiées par 'utilisateur et des images proposées.
+
+*captures*
+
+Des captures d'écrans réalisées lors de sessions de jeux personnelles pourront être attachées à la fiche de jeux. Ces images pourront être référencées et intégrées au texte riche du test de la fiche. 
+Cet attribut est donc multivalué.
+
+h3. Les listes
+
+Une liste appartient à un seul utilisateur. Elle peut être partagée avec une audience restreinte ou à l'ensemble du public accédant au site web.
+Elle peut être modifiée par son propriétaire et permettre l'ajout, la suppression de fiche de jeu.
+
+h3. Les utilisateurs
+
+@TODO@
+
+h3. les rôles
+
+@TODO@
+
+h3. Les commentaires
+
+@TODO@
+
+h3. Les médias
+
+@TODO@

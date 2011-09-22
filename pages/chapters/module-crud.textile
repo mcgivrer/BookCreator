@@ -1,0 +1,296 @@
+h3. Activation du module CRUD
+
+Il est important de noter que la définition des modules à utiliser est faite au sein du fichier @[projectname]/conf/application.conf@ en version <= 1.1 du play framework, et à partir de la version 1.2.x, la gestion des modules est confiée au nouveau moteur de gestion de dépendences et à son fichier de configuration, à savoir, le fichier @[projectname]/conf/dependencies.yml@.
+
+h4. Version de Play! <= 1.1
+
+Pour activer un module, nous devons éditer le fichier @[projectname]/conf/application.conf@ et nous rendre vers la section traitant des ... modules.
+
+Cette partie du fichier se compose de la façon suivante:
+
+pre. 
+	# Additional modules
+	# ~~~~~
+	# A module is another play! application. Add a line for each module you want
+	# to add to your application. Modules path are either absolutes or relative to
+	# the application root.
+	# They get loaded from top to bottom; Syntax: module.{name}={path}
+	#
+	# Keep the next line as is to help the play script to manage modules.
+	# ---- MODULES ----
+
+^listing 2.2.1 - section des modules dans le fichier conf/application.conf^
+
+Pour ajouter un modules, il suffit d'insérer une ligne dont la synthaxe respecte le modèle suivant:
+
+pre. 
+module.[modulename] = ${play.path}/modules/[modulename]-[version]
+
+où:
+
+* @modulename@ est le nom du module à activer dans votre projet,
+* @version@ est la version cible du dit module, qui est facultatif.
+
+
+bq. _*nota:*_
+Pour de plus amples informations sur les modules, en connaitre la liste, nous pouvons, soit parcourir le site de playframework à la page des "modules":http://www.playframework.org/modules, soit essayer la commande suivante: @play list-modules@ qui produira la liste des modules disponibles.
+
+
+h4. Version de Play! >= 1.2
+
+Dans le cas d'une version récente du playframework, la configuration se fait dans le fichier de déescription des dépendances:  @[projectname]/conf/dependencies.yml@.
+
+Ouvrons le fichier qui a été généré par Play!
+
+pre. 
+# Application dependencies
+require:
+    - play
+
+Pour le moment, le fichier ne propose qu'une seule dépendance, a savoir le framework play !
+
+
+ajoutons la ligne comme indiqué ci-dessous dans notre fichier:
+
+pre. 
+# all required Dependencies for this play application
+require:
+    - play [1.2,)
+    - play -> crud
+
+Tout d'abord nous avons précisé la version de play que nous souhaitons cibler: les versions à partie de la 1.2 et supérieures.
+
+pre. 
+    - play [1.2,)
+
+
+La deuxième ligne permet d'indiquer le module crud, qui est fourni par le framrwork play:
+
+pre. 
+    - play -> crud
+
+
+Ainsi, le module @crud@ est activé dans notre application.
+
+bq. _*Information:*_
+Pour plsu de détails sur la syntaxe de la déclaration des dépendances, reportez-vous à la documentation en ligne sur "la gestion des dépendances":http://www.playframework.org/documentation/1.2.1/dependency.
+[1]
+
+fn1. http://www.playframework.org/documentation/1.2.1/dependency
+
+h4. CRUD
+
+Nous souhaitons donc ajouter le module CRUD:
+
+pre. 
+	module.crud=${play.path}/modules/crud
+
+Le module apportant un certain nombre de fonctionnalités, il est accompagné de nouvelles pages qui seront créés dynamiquement en fonction des entités. Pour permettre l'accés à ces pages, nous allons devoir découvrir une nouvelle fonctionnalité de Play!:  les @routes@ !
+
+Commençons par finir de configurer notre module CRUD en ajoutant dans le fichier @myplayapp/conf/routes@ la ligne suivante, en fin de fichier:
+
+pre. 
+	# Import the default CRUD routes
+	GET     /admin	     module:crud
+
+Cette déclaration va permettre d'accéder aux pages générées dynamiquement à partir de l'url http://localhost:9000/admin, (pour un accès depuis le server play en local en mode @run@ ou @start@, resultant de la commande @play run@ ou @play start@).
+
+Comme constaté auparavant, nous nous appercevons que les fonctionnalités de Play! sont d'une simplicité de mise en oeuvre déconcertante. Tout développeur Java se souvient des nombreux fichiers de configurations qu'ils soient @.properties@, @.conf@ ou @.xml@, mais dans tous les cas nombreux. 
+Ici, point de complexité, juste du bon sens.
+
+bq. _*nota:* Il est important de noter que suite à chaque ajout/déclaration d'un nouveau plugin dans votre projet, il est IMPERATIF de regénéré les dépendance du projet eclipse via la commande @play eclispify .@ sous peine d'avoir des erreur de compilation ainsi que des defaillances du système de complétion automatique offert par Eclipse. Cette remarque est également vraie pour NetBeans._
+
+h4. CRUD sur mes entités ?
+
+CRUD, pour les néofites, est un néologisme très anglicisé, correspondant à *C*reate *R*etrieve *U*pdate *D*elete, et signifiant la possibilité de fournir de façon extrêmement simple une interface utilisateur afin d'accéder aux 4 opérations de base pour chaque entité déclarée dans le package @models@.
+
+Ainsi, pour notre entité @Game@, nous souhaitons avoir interface utilisateur simple permettant la gestion des entités Game.
+
+Pour celà, une simple opération permet de définir un contrôleur spécifique à notre entité. Nous allons créer la classe @Games@ dans le package @controllers@. Celle-ci doit hériter de la classe CRUD mise à disposition par le plugin précédemment activé.
+
+La classe sera :
+
+pre. 
+	/**
+	 * Project myplayapp Part 2
+	 * Admin zone
+	 */
+	package controllers;
+	/**
+	 * CRUD management for Game entity.
+	 * @author McGivrer
+	 *
+	 */
+	public class Games extends CRUD {
+	}
+
+^listing 2.2.2 - CRUD: Classe du controlleur de gestion des Jeux (entité Game)^
+
+Puis, prenons notre élant et lançons le serveur play en mode DEV via la commande @play run@.
+
+La zone d'administration que nous accédons par "http://localhost:9000/admin":http://localhost:9000/admin donne la page ci-dessous:
+
+p=. !{width:640px;}public/images/part-2/Capture-2.5-localhost-9000-admin%20-%20Chromium.png(figure 2.2.1 - Accueil de la partie principale générée par le plugin CRUD)!
+^figure 2.2.1 - Accueil de la partie principale générée par le plugin CRUD^
+
+Si nous cliquons sur le lien "Games" représentant notre nouveau contrôleur, nous pouvons voir la page spécifique à notre entité Game:
+
+p=. !{width:640px;}public/images/part-2/Capture-2.6-localhost-9000-games-list%20-%20Chromium.png(figure 2.2.2 - Page générée par CRUD pour l'entité Game via le contrôleur Games)!
+^figure 2.2.2 - Page générée par CRUD pour l'entité Game via le contrôleur Games^
+
+Et enfin, si nous cliquons sur le lien "Add", situé en haut à droite de la page en cours, nous découvrons alors le formulaire généré par le module CRUD pour la création/modification d'une occurence de Game:
+
+p=. !{width:640px;}public/images/part-2/Capture-2.7-localhost-9000-games-blank%20-%20Chromium-1.png(figure 2.2.3 - Formulaire d'édition d'une entité Game)!
+^figure 2.2.3 - Formulaire d'édition d'une entité Game^
+
+Ok, vous me direz que ces formulaires et pages auto générés sont fort beaux, mais les labels des champs ne sont pas trop parlant. Qu'à cela ne tienne, allons modifier ces libellés.
+
+h4. I18n
+
+Pour celà, penchons nous sur un autre point fort de Play! : la gestion de l'internationnalisation (le fameux i18n !).
+
+nous pouvons constater la présence, certe bizard, d'un fichier "@messages@" dans le répertoire @conf@ de votre projet Play!. Et bien, ouvrons le !
+
+pre. 
+	# You can specialize this file for each language.
+	# For example, for French create a messages.fr file
+	#
+
+Certes, il est pour le moment totalement vide de tout contenu, sauf d'un subtile commentaire. Et pourtant, en une seule phrase, tout est dit !
+
+Si nous souhaitons pouvoir afficher des textes subtilement traduit dans une ou plusieurs langues particulières, nous devons simplement créer le fichier messages.[ext] où [ext] sera le code i18 de la langue cible.
+
+Ainsi pour le français, nous devrons créer un fichier "@messages.fr@" et celui là comportera tous les messages dans langue de Jean-Baptiste Poquelin que nous souhaitons voir apparaitre dans nos pages.
+
+Pour information, la sélection de la langue à afficher dans les pages pour un utilisateur se fera en fonction de la langue configurée dans les options des navigateurs web. par exemple sous firefox, ce paramétrage se trouve dans "Preferences -> Advanced -> Languages":
+
+p=. !{width:640px;}public/images/part-2/Capture-2.8-languages%20in%20firefox.png(figure 2.2.4 - Configuration de la langue d'affichage dans Firefox)!
+^figure 2.2.4 - Configuration de la langue d'affichage dans Firefox^
+
+Dans le navigateur Chromium, le choix de la langue par défaut se fait depuis le menu "Préférences -> Options avancées" et via le bouton "Langages et vérification d'orthographe".
+
+p=. !{width:640px;}public/images/part-2/Capture-2.9.1-Param%C3%A8tres%20-%20Chromium.png(figure 2.2.5 - Configuration de la langue d'affichage dans Chromium - étape 1)!
+^figure 2.2.5 - Configuration de la langue d'affichage dans Chromium - étape 1^
+
+p=. !{width:640px;}public/images/part-2/Capture-2.9.2-Param%C3%A8tres%20-%20Chromium.png(figure 2.2.6 - Configuration de la langue d'affichage dans Chromium - étape 2)!
+^figure 2.2.6 - Configuration de la langue d'affichage dans Chromium - étape 2^
+
+Donc, nous devons tout d'abord déclarer la liste des langues supportées par notre application. Nous nous contenterons ici, dans le cadre de ce tutoriel, de supporter l'anglais et le français. Aussi, le fichier @conf/application.conf@ sera modifié comme suit:
+
+pre. 
+	# i18n
+	# ~~~~~
+	# Define locales used by your application.
+	# You can then place localized messages in conf/messages.{locale} files
+	application.langs=fr,en
+
+^listing 2.2.3 - Section i18n du fichier de configuration conf/application.conf^
+
+Créons maintenant un fichier @conf/messages.fr@ pour le français, et  ajoutons-y nos libellés:
+
+pre. 
+	# You can specialize this file for each language.
+	# For example, for French create a messages.fr file
+	#
+	title=Titre
+	platform=Platforme
+	description=Description
+	publish=Publié
+	testContent=Texte du test
+	developerStudio=Studio de développement
+	editor=Editeur
+	yearOfPublication=Année d'édition
+	note=Note
+	cover=Jaquette
+
+^listing 2.2.4 - i18n: Fichier conf/messages.fr de traduction en français^
+
+* ce qui donnera dans l'affichage de la page de modification de Game:
+
+p=. !{width:640px;}public/images/part-2/Capture-2.10-localhost-9000-games-blank%20-%20Google%20Chrome.png(figure 2.2.7 - Langue française sur le navigateur)!
+ ^figure 2.2.7 - Langue française sur le navigateur^
+
+* Si nous créons la version anglaise dans le fichier @conf/messages.en@ :
+
+pre. 
+	# You can specialize this file for each language.
+	# For example, for French create a messages.fr file
+	#
+	title=Title
+	platform=Platform
+	description=Description
+	publish=Publish
+	testContent=Test Content
+	developerStudio=Developer Studio
+	editor=Editor
+	yearOfPublication=Year
+	note=Note
+	cover=Cover
+	
+^listing 2.2.5 - i18n: Fichier conf/messages.en de traduction en anglais^
+
+p=. !{width:640px;}public/images/part-2/Capture-2.10.2-localhost%3A9000-games-blank%20-%20Google%20Chrome.png(figure 2.10.2 - Langue anglaise sur le navigateur)!
+ ^figure 2.2.8 - Langue anglais sur le navigateur^
+
+h4. Customisation de l'affichage
+
+Si les affichage par défaut dans les liste de type d'entiés et des listes des occurences de ces entités, il est possible facilement de modifier ces affichages.
+
+*Titre dans les Listes d'entités*
+
+Pour modifier la liste des entités, il suffit d'ajouter dans les Entity une méthode toString() qui permettra de formater l'affichage d'un objet de type entité dans une liste. Ainsi, pour un object de type Game, on implémentera la méthode @toString()@ comme ci-dessous:
+
+pre. 
+	public String toString(){
+		return this.title + "("+this.yearOfPublication+")";
+	}
+
+^listing 2.2.5 - Modification de la méthode toString() pour le rendu des informations d'une entité dans une liste^
+
+La liste sera alors affichée de la manière suivante :
+
+p=. !{width:640px;}public/images/part-2/Capture-2.11-title%20custom.png(figure 2.2.9 - Titre d'un jeu personnalisé dans la liste des Games)!
+^figure 2.2.9 - Titre d'un jeu personnalisé dans la liste des Games^
+
+*Colonnes affichés dans les listes*
+
+Vous pouvez également donner plus d'information dans les listes affichées. pour cela, vous passez par les fichier @list.html@ des controllers "entities".
+
+Pour cela, créons un répertoire @views/Games@ et dans celui-ci créer le fichier @list.html@ et copiez-y les lignes ci-dessous:
+
+pre. 
+	#{extends 'CRUD/layout.html' /}
+	<div id="crudList" class="${type.name}">
+		<h2 id="crudListTitle">&{'crud.list.title', type.name}</h2>
+		<div id="crudListSearch">
+			#{crud.search /}
+		</div>
+		<div id="crudListTable">
+			#{crud.table fields:['title', 'yearOfPublication', 'publish', 'platform'] /}
+		</div>
+		<div id="crudListPagination">
+			#{crud.pagination /}
+		</div>
+		<p id="crudListAdd">
+			<a href="@{blank()}">&{'crud.add', type.modelName}</a>
+		</p>
+	</div>
+
+^listing 2.2.6 - Modification du template view/Games/list.html pour le rendu de la liste des jeux^
+
+
+vous remarquerez la ligne :
+
+	@#{crud.table fields:['title', 'yearOfPublication', 'publish', 'platform'] /}@
+
+Celle-ci liste les champs que vous souhaitez afficher dans la liste des jeux.
+
+
+p=. !{width:640px;}public/images/part-2/Capture-2.12-custom_list_of_fields.png(figure 2.2.10 - Liste de champs personnalisé pour la liste des jeux videos)!
+^figure 2.2.10 - Liste de champs personnalisé pour la liste des jeux videos^
+
+Vous remarquerez qu'ici aussi, tous les libellés sont traduits.
+
+La suite se concentrera sur le "module Secure":http://github.com/mcgivrer/myplayapp/blob/master/Mise-en-place-du-module-Secure.textile et son implémentation, ainsi que sur la customisation de la page d'accueil de l'application. Nous en profiterons également pour mettre en place une belle zone d'administration avec plein d'information.
+
+Il sera également temps de revoir nos diverses entités pour en faire un beau modèle fonctionnel.

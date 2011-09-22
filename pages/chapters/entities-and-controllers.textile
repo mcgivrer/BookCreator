@@ -1,0 +1,155 @@
+h2. Entités et autres contrôleurs
+
+C'est une application de gestion de liste de jeux vidéo que nous allons créer, au fait !
+Et donc, de quoi avons nous besoin pour modéliser notre bibliothèque de jeux vidéo ? Disons, une entité représentant un jeu, et une entité pour désigner la plateforme d'accueil de ce jeu. C'est un bon début.
+
+Et si on souhaite en faire une vraie application internet, il nous faut, pour pouvoir la sécuriser, une entité représentant un utilisateur.
+
+En plus de ces entité, nous bâtirons l'application sur 1 contrôleur principale, gérant la page d'accueil, et, à l'aide du module CRUD, autant de sous-contrôleurs que d'entités pour la partie administration.
+
+Voilà la liste est faite, plus qu'à se lancer dans le développement de cette magnifique application.
+
+h3. Game
+
+Un jeu est modélisé par un titre, une plateforme (que nous "entité-iserons" plus tard) une description, un éventuel test, une année de production, un studio de développement, un éditeur  (qui pourront devenir à leur tour des entités à part entière d'ici quelques temps), une note, et enfin une image représentant la pochette du jeu.
+
+Précipitons nous sous notre IDE préféré, Eclipse pour ma part, et créons une première classe Game dans le package models. N'oubliez pas d'hériter de la classe Model (play.db.jpa.Model) afin de pouvoir faire persister notre jeu dans une base de données (nous aborderons cela au chapitre suivant). Utiliser l'assistant pour vous faciliter la tâche:
+
+p=. !https://lh5.googleusercontent.com/_n8m1NWoVppU/TUS1H_GFOqI/AAAAAAAAG4o/r-XbJRDwYWc/s460/Play%21framework%20-%20premi%C3%A8re%20partie.png(figure 1.3.8 - La classe Game héritant de play.db.jpa.Model)!
+^figure 1.3.8 - La classe Game héritant de play.db.jpa.Model^
+
+Et après un clic sur "finish", ajoutons les choses suivantes:
+Tout d'abord,
+
+    * l'annotation @Entity indiquant à Java et à JPA que cette classe devra persister.
+    Ajoutons les attributs dont nous avons parlé précédemment, à savoir:
+        ** public String title;
+        ** public String platform;
+        ** public String description;
+        ** public Boolean publish;
+        ** public String test;
+        ** public String developerStudio;
+        ** public String editor;
+        ** public Integer yearOfPublication;
+        ** public Integer note;
+        ** public String cover;
+
+    * Ajoutons au dessus des attributs title, description, yearOfPublication l'annotation @Required, indiquant le caractère "indispensable" de la présence de valeur pour ces attributs.
+
+Ce qui nous donne a peu de chose près la classe suivante:
+
+pre. 
+ /**
+  * Projet myplayapp
+  * Entité Game
+  */
+ package models;
+ import javax.persistence.Entity;
+ import play.data.validation.Required;
+ import play.db.jpa.Model;
+ /**
+  * Game Classe modélisant un jeu vidéo de la bibliothèque
+  * @author frederic
+  *
+  */
+ @Entity
+ public class Game extends Model {
+	@Required
+	public String title;
+	@Required
+	public String platform;
+	@Required
+	public String description;
+	public Boolean publish;
+	public String testContent;
+	public String developerStudio;
+	public String editor;
+	@Required
+	public Integer yearOfPublication;
+	public Integer note;
+	public String cover;
+	public Game(String title, String description, Boolean publish,
+				String testContent, String developerStudio, String editor,
+				Integer yearOfPublication, Integer note, String cover) {
+		this.title=title;
+		this.description=description;
+		this.publish = publish;
+		this.testContent=testContent;
+		this.developerStudio=developerStudio;
+		this.editor=editor;
+		this.yearOfPublication = yearOfPublication;
+		this.note = note;
+		this.cover = cover;
+	}
+ }
+
+Voilà une première étape de faite.
+
+Mais avant de pouvoir tester cette chose, codons justement un test unitaire de la classe de persistance et de sa DAO, géré par le framework.
+
+Créons donc une classe de test dans le répertoire de source test et nommons le EntitiesTest:
+
+Notre petite classe est destinée à tester la persistance de nos entitée:
+
+pre. 
+public class BasicTest extends UnitTest {
+	@Test
+	public void testCreateOrUpdateOrDeleteGame() {
+		//Create
+		Game game = new Game(
+			"MyGame", 
+			"X360", 
+			"My Description game", 
+			true,
+			"Test of the game", "My Studio", "My Editor", 2010, 8,
+			"public/public/images/x360/my_game/cover/mygame-cover.jpg");
+		game.save();
+		//Retrieve technical Id
+		Long id = game.getId();
+		assertNotNull("game is not created", id);
+		// Update
+		game = Game.findById(id);
+		game.title="MyNewGame";
+		game.save();
+		//Retrieve and verify update
+		Game game2 = Game.findById(id);
+		assertSame("Game was not correctly updated", game2.title, game.title);
+		game.delete();
+		game = Game.findById(id);
+        assertNull("Game was not deleted",game);
+	}	
+}
+
+Ok,maintenant, testons notre test ;)  et lançons dans la session de commandes précédemment ouverte (ou le terminbal sous Ubuntu) la ligne suivante:
+
+* Ubuntu:
+
+pre. $>play test
+
+* Windows
+
+pre. c:\>play test
+
+
+_nota: depuis Eclipse, via la barre d'icônes de run/debug, cliquons sur le bouton "Run Configurations...", et dans le groupe "Java applications", lançons "Test myplayapp"._
+
+Ouvrons notre navigateur (Firefox, Chrome, Safari, IE ?) sur l'url "http://localhost:9000/@tests":http://localhost:9000/@tests !
+
+Nous pouvons alors lancer les tests que nous avons créés.
+
+La page appraissant à l'écran nous propose de lancer les tests souhaités. choisissons @BasicTest@ et cliquons sur "Start !".
+
+p=. !https://lh3.googleusercontent.com/_n8m1NWoVppU/TUS1IgQwUwI/AAAAAAAAG4w/QyKZs-4pReA/s460/Play%21framework%20-%20premi%C3%A8re%20partie.png(figure 1.3.9 - Lancement des tests unitaires via l'interface Web de Play)!
+^figure 1.3.9 - Lancement des tests unitaires via l'interface Web de Play!^
+
+Le test choisi déroulé, le résultat de celui-ci apparait dans la même page:
+
+p=. !https://lh5.googleusercontent.com/_n8m1NWoVppU/TUS1JPygvfI/AAAAAAAAG40/YlgavBdohqs/s460/Play%21framework%20-%20premi%C3%A8re%20partie.png(figure 1.3.10 - Résultat du test unitaire exécuté)!
+^figure 1.3.10 - Résultat du test unitaire exécuté^
+
+Nous pouvons aussi choisir de lancer l'intégralité des tests unitaires proposés nativement par Play!, ainsi que nos tests "custom".
+
+Pour cela rappelons la page des tests et choisissons sur le lien "select all" puis cliquons sur "Start !". Tous les tests natifs sont appelés, y compris un test via Sélénium vérifiant le bon affichage de la page d'accueil de l'application.
+
+p=. !https://lh4.googleusercontent.com/_n8m1NWoVppU/TUS1KDpD9sI/AAAAAAAAG5A/wQaWPOp6tdo/s460/Play%21framework%20-%20premi%C3%A8re%20partie.png(figure 1.3.11 - Tous les tests ont été lancés et exécutés avec succès)!
+^figure 1.3.11 - Tous les tests ont été lancés et exécutés avec succès^

@@ -1,0 +1,15 @@
+h2. Attributs éditables
+
+Lorsqu'un utilisateur se connecte au site web, un certain nombre d'attribut de l'objet User reste à sa discrétion. Il a donc le loisir de modifier ces attributs comme il le souhaite à travers une petite UI.
+
+Celle-ci doit lui permettre d'éditer:
+
+* son nom d'utilisateur,
+* son mot de passe, avec une confirmation,
+* ses nom et prénom,
+* son email, avec confirmation
+* son avatar, ou image.
+
+l'interface doit être la plus simple possible afin de répondre au besoin des novices.
+
+

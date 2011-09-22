@@ -1,0 +1,29 @@
+h1. IntelliJ IDEA
+
+Le dernier IDE intégré "compatible" avec "Play":http://www.playframework.org est IntelliJ IDEA.
+
+Comme pour les autres IDE, il est très simple d'intégrer votre projet:
+
+pre. 
+frederic@nostromo64:~/Projects/play/myplayapp$ play idealize
+~        _            _ 
+~  _ __ | | __ _ _  _| |
+~ | '_ \| |/ _' | || |_|
+~ |  __/|_|\____|\__ (_)
+~ |_|            |__/   
+~
+~ play! 1.2.2RC2, http://www.playframework.org
+~
+~
+~ Warning: conflict on command new
+~
+~ OK, the application is ready for Intellij Idea
+~ Use File/New Module/Import Existing module
+~
+frederic@nostromo64:~/Projects/play/myplayapp$
+
+
+Il ne vous reste plus qu'à ouvrir IDEA et a importer le projet :
+
+p=. !{width:640px;}images/part-1/ide/intelliJ/Capture-5.3.1-myplayapp-index-html-IntelliJ-IDEA.png(figure 5.3.1 - Import du projet play dans IDEA)!
+^figure 5.3.1 - Import du projet play dans IDEA^

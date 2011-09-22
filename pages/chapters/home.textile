@@ -1,0 +1,64 @@
+h1. Play!framework - un tutoriel pas à pas
+
+h2. Ma première application Play!
+
+* "Préface":wiki/preface
+
+* 1.0 "L'effet whaoouu":wiki/effet-whaoouu
+** 1.1 Installation
+** 1.2 Action !
+
+* 2.0 "Le cahier des charges":wiki/cdc
+
+* 3.0 "Proposition":wiki/propal
+
+* 4.0 "Installation et premiers pas":wiki/install-and-first-steps
+** 4.1 "Installation du framework":wiki/installation
+** 4.2 "Création d'une première application":wiki/first-app
+
+* 5.0 "Environnement de développement":wiki/env-dev
+** 5.1 "Eclipse":wiki/eclipse
+** 5.2 "NetBeans":wiki/netbeans
+** 5.3 "IntelliJ IDEA":wiki/intellij
+** 5.3 "Entités et autres contrôleurs":wiki/entities-and-controllers
+** 5.4 "Conclusion":wiki/env-dev-conclusion
+
+* 6.0  "Zone d'Administration et Sécurité":wiki/admin-and-security
+** 6.1 "Git'ification du projet et utilisation du plugin EGit d'eclipse":wiki/git-and-egit
+** 6.2 "Les modules natifs":wiki/natives-modules
+*** 6.2.1 "Mise en place du module CRUD":wiki/module-crud
+*** 6.2.2 "Mise en place du module Secure":wiki/module-secure @WIP@
+** 6.3 "Customisation de la page d'accueil":wiki/custom-home
+
+* 7.0 "Administration ou BackOffice":wiki/admin-or-backoffice @WIP@
+** 7.1 "Création d'une zone d'administration personnalisée":wiki/custom-admin-zone @WIP@
+** 7.2 "Gestion des préférences utilisateur":wiki/user-preferences @A venir@
+** 7.3 "Intégration de l'avatar Gravatar":wiki/module-gravatar @A venir@
+** 7.4 "Upload d'image":wiki/image-upload @A venir@
+** 7.5 "Ajout d'un nouveau jeu à la liste":wiki/add-game @A venir@
+
+* 8.0 Services orientés Entreprise @A venir@
+** 8.1 Notification par mail @A venir@
+** 8.2 Flux RSS et ATOM @A venir@
+** 8.3 "Web Services REST":wiki/webservice-rest @WIP@
+
+* 9.0 Authentification avancée @A venir@
+** 9.1 Authentification via OAuth @A venir@
+** 9.2 Authentification via LDAP authentification @A venir@
+
+* 10.0 Extension du framework @A venir@
+** 10.1 "Création d'un tag":wiki/create-tag
+** 10.2 "Création d'un Module":wiki/create-module-book @A venir@
+** 10.3 "Création d'un plugin de getion de thèmes":wiki/create-plugin-theme @A venir@
+
+* 11.0 "Modules utiles":wiki/modules-utiles
+** 11.1 "Module Router":wiki/module-router @WIP@
+** 11.2 "Module html5validation":wiki/module-html5validation @A Venir@
+** 11.3 "Module Less":wiki/module-less @WIP@
+** 11.4 "Module Excel":wiki/module-excel @WIP@
+** 11.5 "Module Migrate":wiki/module-migrate @A Venir@
+
+
+Bonne lecture !
+
+Frédéric Delorme.

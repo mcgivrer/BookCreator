@@ -1,0 +1,49 @@
+h3. Netbeans
+
+Sous "NetBeans 6.9.x":http://netbeans.org/community/releases/69/, la procédure est très similaire. Mais avant, il nous faut procéder à deux opérations préparatoire:
+
+# Créer un Play ID, qui est un identifiant unique pour votre application, cela est réalisé via la commande @play id@,
+# Créer le répertoire lib dans la racine de votre projet, répertoire indispensable poutr le travail sous NetBeans. A l'aide d'un @mkdir lib@, nous serons prêt pour l'étae suivante.
+
+La commande "magique" permettant de créer la creation du projet Netbeans est la suivante:
+
+pre. 
+    cd ~/Projects/Java/play/myplayapp
+    play netbeanify .
+
+Ce qui produit la trace suivante dans la console:
+
+pre. 
+    frederic@nostromo6:~/Projects/Java/play/myplayapp$ play netbeansify .
+    ~        _            _
+    ~  _ __ | | __ _ _  _| |
+    ~ | '_ \| |/ _' | || |_|
+    ~ |  __/|_|\____|\__ (_)
+    ~ |_|            |__/
+    ~
+    ~ play! 1.1, http://www.playframework.org
+    ~
+    ~ OK, the application is ready for netbeans
+    ~ Just open /home/frederic/Projects/Java/play/myplayapp as a netbeans project
+    ~
+    ~ Use netbeansify again when you want to update netbeans configuration files, then close and open you project again.
+    ~
+
+^listing 1.3.2 - Création du projet pour NetBeans^
+
+Ensuite, ouvrons Netbeans. Fermons la page "Start" afin d'optimiser l'espace de travail (cette réflexion n'engage que moi).
+
+p=. !{width:640px;}images/part-1/ide/netbeans/Capture-NetBeans-6.9.png(figure 1.3.5 - NetBeans démarré, prêt à ouvrir le projet)!
+^figure 1.3.5 - NetBeans démarré, prêt à ouvrir le projet^
+
+p=. !{width:640px;}images/part-1/ide/netbeans/Capture-myplayapp-running-on-NetBeans-6.9-2.png(figure 1.3.6 - NetBeans présentant votre projet Play! fraîchement importé)!
+^figure 1.3.6 - NetBeans présentant notre projet Play! fraîchement ouvert^
+
+Une fois le projet ouvert, nous pouvons le lancer très facilement en cliquant l'icône "play" ou "lecture" en haut, au milieu de la toolbar. Et hop, notre projet play démarre. 
+
+Si nous souhaitons faire une session de débuggage (déverminage ?) un clic sur le bouton juxtaposant le précédant, et nous voilà connecté au port 8000 de débuggage de notre application Play!.
+
+p=. !{width:640px;}images/part-1/ide/netbeans/Capture-1.3.7-myplayapp-NetBeans-IDE-debug-partie.png(figure 1.3.7 - NetBeans - Debug Party)!
+^figure 1.3.7 - NetBeans Debug Party !^
+
+Nous avons maintenant monté notre projet dans NetBeans, et celui-ci est prêt pour le développement. 

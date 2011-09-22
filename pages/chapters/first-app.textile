@@ -1,0 +1,90 @@
+h2. Création d'une première application
+
+Fermons puis relançon notre session utilisateur pour être sûr que la nouvelle valeur de la variable système @PATH@ soit bien prise en compte.
+
+bq. _*note:*_ nous considérerons que nos projets seront stockés dans un répertoire @Project/Java/play@. Noter que sous windows, nous avons choisi arbitrairement le lecteur "D:\"
+
+* Sous Linux
+
+pre. 
+	cd ~/Projects/Java/play
+
+* Sous Windows:
+
+pre. 
+	cd d:\Projects\Java\play
+
+Ouvrons une console de commande (Windows) ou un terminal (Linux) et tapons :
+
+pre. 
+	play new myplayapp
+
+La console indique alors :
+
+pre. 
+	frederic@nostromo6:~/Projects/Java/play$ play new myplayapp
+	~        _            _
+	~  _ __ | | __ _ _  _| |
+	~ | '_ \| |/ _' | || |_|
+	~ |  __/|_|\____|\__ (_)
+	~ |_|            |__/
+	~
+	~ play! 1.1, http://www.playframework.org
+	~
+	~ The new application will be created in /home/frederic/Projects/Java/play/myplayapp
+	~ What is the application name? [myplayapp]
+	~
+	~ OK, the application is created.
+	~ Start it with : play run myplayapp
+	~ Have fun!
+	~
+
+^listing 1.2.1 - Création d'une application play en ligne de commande^
+
+Editons dans l'arborescence du projet créé le fichier @myplayapp/conf/application.conf@
+
+et remplaçons dans les lignes suivantes:
+
+pre. 
+	# Database configuration
+	# ~~~~~
+	# Enable a database engine if needed.
+	#
+	# To quickly set up a development database, use either:
+	#   - mem : for a transient in memory database (HSQL in memory)
+	#   - fs  : for a simple file written database (HSQL file stored)
+	#db=mem
+	#
+
+^listing 1.2.2 - Configuration de la base de données^
+
+
+Remplaçons la ligne du @db=mem@ par un @db=fs@ et supprimons le @#@, ceci afin d'avoir une persistance temporaire dans une base de données HLSQL sur le système de fichier, et non pas en mémoire ce je trouve un peu trop volatile.
+
+Ce qui donne:
+
+pre. 
+	# Database configuration
+	# ~~~~~
+	# Enable a database engine if needed.
+	#
+	# To quickly set up a development database, use either:
+	#   - mem : for a transient in memory database (HSQL in memory)
+	#   - fs  : for a simple file written database (HSQL file stored)
+	db=fs
+	#
+
+^listing 1.2.3 - Activiation d'une base de données de type HSQL en mode fichier^
+
+Vérifions que celle-ci est opérationnelle avec la commande :
+
+pre. 
+	frederic@nostromo6:~/Projects/Java/play$ play run
+
+
+et accédons l'url "http://localhost:9000/":http://localhost:9000/
+
+p=. !https://lh6.googleusercontent.com/_n8m1NWoVppU/TUS1JnCb_2I/AAAAAAAAG48/tODeSqPEtgU/s460/Play%21framework%20-%20premi%C3%A8re%20partie.png(figure 1.2 - Premier pas dans le monde du framework Play)!
+^figure 1.2.1 - Premier pas dans le monde du framework Play^
+
+Nous voila en présence des prémices de notre première application @Play!@.

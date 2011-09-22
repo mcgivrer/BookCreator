@@ -1,0 +1,116 @@
+h2. Module Excel
+
+h3. Description
+
+Le module Excel est comme son nom l'indique, un module ajoutant une nouvelle fonctionnalité à Play! : l'export de données dans un format bureautique bien connu: Excel ^(c)Microsoft^. 
+
+h3. Installation
+
+la commande suivante permet l'installation du module Excel dans sa version 1.1:
+
+pre. $> play install excel-1.1
+
+bq. _*Nota:*_ Si vous êtes sous Eclipse/Netbeans, n'oublions pas de mettre-à-jour le classpath de notre projet pour qu'il prenne en compte ce nouveau module.
+
+Pour l'activer, il faut comme pour tout module Play!, ajouter une petite ligne dans le fichier de @conf/application.conf@:
+
+pre. 
+	module.excel=${play.path}/modules/excel-1.1
+
+
+Si l'on souhaite spécifier un répertoire de base pour les template excel, il faut insérer la ligne suivante dans le même fichier, à l'endroit de votre choix (plutôt vers la fin) :
+
+pre. 
+	excel.template.root=[mon_chemin_a_moi]
+
+
+
+
+h3. Utilisation
+
+Il est assez simple d'utilisation. Il faut tout d'abord importer la méthode statique du renderer issu du module:
+
+pre. 
+	import static play.modules.excel.Excel.renderExcel;
+
+Ensuite, dans notre contrôleur @app/controller/Application.java@, nous créons une nouvelle méthode @exportGamesList()@ comme le dans le code ci-dessous:
+
+pre. 
+	/**
+	 * Export la liste des jeux affichés dans le format souhaité
+	 */
+	public static void exportGamesList(){
+		// Récupération de l'utilisateur connecté.
+		User user = (User) renderArgs.get("user");
+		Logger.debug("Export game list for user "+user.username);
+		// Si un utilisateur connecté.
+		if (user != null) {
+			Logger.debug(user.username + ": " + user.firstname + " " + user.lastname);
+			// Création de la liste des jeux
+			List<Game> games = Game.find("select g from Game g "
+				+"where "
+				+"g.publish=true "
+				+"and g.author = ? "
+				+"order by platform asc, title asc", user).fetch();
+			Logger.debug("Number of exported games: %d", 
+				games.size());
+			// Preparation de la date de génération
+			Date dateOfTheDay = new Date();
+			DateFormat df = new SimpleDateFormat("dd-mm-yyyy");
+			String date = df.format(dateOfTheDay);
+			// Définition du nom de fichier (pour FF)
+			renderArgs.put("filename","mygames.xls");
+			renderExcel(user, games, date);
+		}
+	}
+ 
+Si un utilisateur est connecté, un fichier excel sera généré avec la liste des jeux de cet utilisateur.
+
+notons la ligne :
+
+pre. 
+	renderArgs.put("filename","mygames.xls");
+
+la variable 'filename' permet de définir le nom du fichier qui sera exporté. 
+
+Mais un bug identifié empèche cette affectation pour les navigateurs  Chrome et Internet Explorer; sous Firefox, cela fonctionne sans problème.
+
+Le nom configuré n'est alors pas pris en compte. Le nom du fichier est alors le nom de la méthode dans l'url (cf. fichier de codumentaiton du module "Excel":http://www.playframework.org/modules/excel-1.1/home).
+
+Ensuite, dans la méthode, une simple requête permet de récupérer cette liste.
+
+Le rendu du fichier excel est provoqué par l'appel à la méthode @renderExcel()@
+
+Du côté du navigateur, un fichier est envoyé en upload, et suivi la configuration de votre navigateur et/ou de votre PC, celui-ci sera soit sauvegardé, soit ouvert par le logiciel ad-hoc.
+
+Le template appelé par cette commande est à créer dans le répertoire @app/views@. Dans notre cas, il sera dans @app/views/Application@ et s'appelera @exportGamesList.xls@.
+
+il aura à peu près le contenu suivant:
+
+p=. !{width:640px}images/part-7/exportfile-exportGamesList-xls.png(figure 7.4.1 - Le contenu du fichier xls d'export de notre exemple)!
+^figure 7.4.1 - Le contenu du fichier xls d'export de notre exemple^
+
+A noter les balises :
+
+pre. 
+<jx:forEach items='' var=''>
+...
+</jx:forEach>
+
+Elles permettent de boucler sur une liste.
+
+Après, @${}@ est à utiliser comme dans les templates de page html.
+
+h3. Conclusion
+
+Après avoir modifié le contrôleur @Application@, nous obtiendrons un export comme sur la figure 7.4.2 ci-après.
+
+Soit l'utilisateur connecté:
+
+p=. !{width:640px;}images/part-7/Capture-7.4.2-Home-All-platforms-export.png(figure 7.4.2 - Page d'accueil d'un utilisateur connecté)!
+^figure 7.4.2 - Page d'accueil d'un utilisateur connecté^
+
+Si nous cliquons sur le lien "Export List" on obtiendra le fichier ci-dessous:
+
+p=. !{width:640px;}images/part-7/Capture-7.4.3-exportGamesList.xls-LibreOffice-Calc.png(figure 7.4.3 - Export réalisé pour un utilisateur connecté)!
+^figure 7.4.3 - Export réalisé pour un utilisateur connecté^

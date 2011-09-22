@@ -1,0 +1,87 @@
+h1. Introduction
+
+Dans ce chapitre, nous nous proposons de créer les pages qui permettront d'ajouter un nouveau jeu à la liste d'un utilisateur connecté.
+
+Mais avant que cela soit possible, nous devons procéder a quelques aménagement de notre modèle. Nous ajouterons tout d'abord un objet Picture qui nous servira à stocker des images attachées à un jeu, et surout, nous alons remplacer la relation Many-To-One existante actuellement entre Game et User par une nouvelle relation: @Many-To-Many@.
+
+Ensuite, nous ajouterons une page de recherche dans les jeux déjà saisis par les autres utilisateurs, et à la suite de l'affichage des résultats de cette recherche, via un bouton "Ajouter" présent à côté de chaque jeu, un utilisateur pourra ajouter l'un de ceux-ci à sa propre liste. 
+
+bq. A noter que l'utilisateur pourra fournir, via une page intermédiaire, une note et ses propres commentaires sur le-dit jeu.
+
+Enfin, à chaque fiche de jeu, les joueurs pourrons apporter leur critiques. Celles-ci seront visible par la communauté des tulisateur du site "My Game List".
+
+h2. Modification du modèle
+
+Comme présenté prédédement, nous devons tout d'abord découpler les entités  @User@ et @Game@ de la relation @One-To-Many@ qui les unis.
+
+h3. Many-To-Many
+
+@todo@
+
+h3. Modèle Picture
+
+@todo@
+
+h4. Modèles Comments
+
+@todo@
+
+h2. Pages liées à la recherche
+
+@todo@
+
+h3. Recherche
+
+@todo@
+
+h3. Résultats
+
+@todo@
+
+h3. Ajout d'un jeu présent
+
+@todo@
+
+h2. Page d'édition d'une fiche de jeu
+
+@todo@
+
+p=. !https://lh6.googleusercontent.com/_n8m1NWoVppU/TYfswtfwymI/AAAAAAAAHH0/gYKG8Wkj23E/s560/SCAN0019.JPG(figure 3.5.1 - Formulaire d'édition d'un jeu)!
+^figure 3.5.1 - Formulaire d'édition d'un jeu^
+
+
+h3. Détails du jeu
+
+h4. Edition des champs de la fiche du jeu en mode normal
+
+
+!https://lh6.googleusercontent.com/_n8m1NWoVppU/TYfuuPlancI/AAAAAAAAHIQ/SuszCWAWD68/s560/SCAN0019.JPG!
+
+p=. !https://lh3.googleusercontent.com/_n8m1NWoVppU/TYftkuPN7LI/AAAAAAAAHIE/clNo_fAmPWg/s560/SCAN0019.JPG(figure 3.5.2 - Champs du formulaire du jeu)!
+^figure 3.5.2 - Champs du formulaire du jeu^
+
+
+
+h4. Ajaxification des champs utiles
+
+
+@todo@
+
+h3. Edition en du champ test en mode Textile
+
+bq. Utilisation de l'extension proposée sur les forums Play!framework pour l'affichage du résultat en mode textile.
+
+@todo@
+
+h3. Galerie d'images
+
+p=. !https://lh4.googleusercontent.com/_n8m1NWoVppU/TYftunAGp3I/AAAAAAAAHII/yDvTDLAZqGA/s560/SCAN0019.JPG(figure 3.5.3 - Zone d'édition de la galerie d'images du jeu)!
+^figure 3.5.3 - Zone d'édition de la galerie d'images du jeu^
+
+
+
+@todo@
+
+h2. Conclusion
+
+@todo@

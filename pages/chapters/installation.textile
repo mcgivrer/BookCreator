@@ -1,0 +1,46 @@
+h2. Installation du framework sous Windows ou sous Ubuntu
+
+Afin de mettre en place les outils nécessaires pour travailler sur ce framework, nous allons commencer par télécharger l'"archive":http://www.playframework.org/download contenant le framework et l'installer dans le répertoire de notre choix sur notre machine. 
+
+Par exemple dans @~/tools/play@ si nous sommes sous Ubuntu Linux, ou bien sur @C:\tools\play@ si nous développons sous Windows.
+
+Ajoutons ensuite ce nouveau chemin à notre chemin système, comme indiqué ci-dessous.
+
+h3. Ubuntu Linux
+
+Sous Linux, éditer votre fichier @~/.bashrc@, et ajouter en fin de fichier
+
+pre. export PATH=%PATH%:~/tools/play:.
+
+h3. Windows
+
+Sous Windows, éditons nos variables systèmes (Propriété du poste de travail, onglet "Avancé", boutons "variables systèmes" et modifier l'entrée PATH en modifiant la valeur comme suit :
+
+pre. %PATH%;C;\tools\play;.
+
+Et le tour est joué.
+
+h3. Play! now 
+
+Si nous ouvrons une session de commande sous Windows, ou un terminal sous Ubuntu et que nous tapons la commande @play@, nous obtenons la sortie console suivante:
+
+pre. 
+	frederic@nostromo64:~$ play
+	~        _            _ 
+	~  _ __ | | __ _ _  _| |
+	~ | '_ \| |/ _' | || |_|
+	~ |  __/|_|\____|\__ (_)
+	~ |_|            |__/   
+	~
+	~ play! 1.1.1, http://www.playframework.org
+	~ framework ID is WebContext
+	~
+	~ Usage: play cmd [app_path] [--options]
+	~ 
+	~ with,  new      Create a new application
+	~        run      Run the application in the current shell
+	~        help     Show play help
+	~
+	frederic@nostromo64:~$ 
+
+^listing 1.1.1 - La commande par défaut play^

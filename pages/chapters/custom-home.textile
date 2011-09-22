@@ -1,0 +1,410 @@
+h1. Page d'accueil personnalisée
+
+h2. Liste de jeux
+
+Comme prévu, nous souhaitons créer notre propre page d'accueil (sinon, où est l'intérêt ? :)
+
+Aussi, voici ce que nous souhaitons obtenir en première étape:  l'affichage de la fiche d'un jeu vidéo:
+
+p=. !{width:640px;}images/part-2/Capture-2.4.1-Game_file.jpg(figure 2.4.1 - Fiche d'une jeu vidéo)!
+^figure 2.4.1 - Fiche d'un jeu vidéo^
+
+Ce qui se traduit côté code "HTML/Groovy" par les lignes suivantes dans le fichier @app/view/Application/index.html@:
+
+pre. 
+  #{extends 'main.html' /}
+  <div id="games" class="games">
+    <h1>&{'home.games.title'}</h1>
+    #{if games}
+      #{list items:games, as:'game'}
+        #{set title:'Home / '+game.platform+'/'+game.title /}
+        <div class="game" id="game_${game.id}">
+			<div class="title">
+            	<span>#${game.id}.</span>
+            	${game.platform}/${game.title}
+			</div>
+           <div class="side">
+            #{if game.cover}
+            <div class="cover">
+              <img src="public/public/images/games/${game.platform}/${game.title}/cover/${game.cover}.resized"
+                title="${game.platform}/${game.title}" width="60"/>
+            </div>
+            #{/if}
+            <div class="tags">
+            </div>
+          </div>
+          <div class="info">
+            #{if game.description}
+            <div class="label">&{'home.games.game.description'}</div>
+            <div class="bloc">${game.description}</div>
+            #{/if}
+            #{if game.testContent}
+            <div class="label">&{'home.games.game.test'}</div>
+            <div class="bloc">${game.testContent}</div>
+            #{/if}
+          </div>
+        </div>
+      #{/list}
+    #{/if}
+    #{else}
+      <p>&{'home.games.noitems'}</p>
+    #{/else}
+  </div>
+
+^listing 2.4.1 - Template index.html pour l'affichage de la liste des jeux^
+
+h2. les notations
+
+On distingue plusieurs notations utiles qui vont permettre le rendu de plusieurs types d'informations issues de différentes sources:
+
+* @&{}@ permet l'affichage de messages issus des fichier @"messages.[langue]"@, exemple: @&{'home.games.title'}@,
+* @${}@ permet l'affichage de variables d'entités,
+* @#{}@ permet les tests de structures et boucles.
+
+Les méthodes intéressantes sont:
+
+* @#{if}#{/if}@ délimite une condition,
+* @#{else}#{/else}@ délimite le cas échéant de la condition,
+* @#{list items:[liste], as:'[item]'}@ permet de parcourir une liste [liste] avec comme index l'objet [item]. il est alors possible de référencer chaque occurense dans la liste par "@[item].attribut@", où attribut est un attribut valorisé de l'occurence.
+
+Par exemple, la génération d'une liste de prénoms d'utilisateurs:
+
+pre. 
+    <ul>
+        #{list:users, as: 'user'}
+        <li>@user.firstname.</li>
+        #{/list}
+    </ul>
+
+^listing 2.4.2 - Exemple de boucle pour l'affichage d'une liste^
+
+Référons nous à la "documentation":http://www.playframework.org/documentation/1.1.1/templates présente sur le site de Play! pour découvrir toutes les subtilités de Groovy, qui est le langage utilisé ici.
+
+bq. _*note:*_ si nous n'avons pas accès à internet pendant le dévelopement, pour une raison quelconque, nous pouvons accèder à tout moment à la documentation de Play! en démarrant le serveur play intégrer (commande play start@) dans un projet vierge (par exemple) et en appelant l'url "http://localhost:9000/@documentation":http://localhost:9000/@documentation.
+
+h2. template des pages
+
+Notons l'importance de @#{extends main.html /}@ qui permet à notre page d'hériter de la mise en page de notre site située dans @app/view/main.html@.
+
+Pour le moment, cette page se résume à :
+
+pre. 
+    <!DOCTYPE html>
+    <html>
+        <head>
+            <title>#{get 'title' /}</title>
+            <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+            <link rel="stylesheet" type="text/css" media="screen" href="@{'/public/stylesheets/main.css'}">
+            #{get 'moreStyles' /}
+            <link rel="shortcut icon" type="image/png" href="@{'/public/public/images/favicon.png'}">
+            <script src="@{'/public/javascripts/jquery-1.4.2.min.js'}" type="text/javascript" charset="utf-8"></script>
+            #{get 'moreScripts' /}
+        </head>
+        <body>
+            #{doLayout /}
+        </body>
+    </html>
+
+^listing 2.4.3 - Template de base des page : main.html^
+
+Nous constatons l'utlisation du doctype HTML5.  Nous ferons abstraction des nombreuses déclarations de début de fichier pour nous concentrer sur celles qui méritent toute notre attention:
+
+pre. 
+		    #{doLayout /}
+
+C'est via cette simple balise que toutes les pages héritant de @main.html@ (@#{extends 'main.html'}@) verront ici leur contenu inséré.
+
+Modifions maintenant l'aspect globale de notre site en personnalisant le template @app/views/main.html@ :
+
+Ajoutons la zone de titre (header) et la zone de pied de page (footer):
+
+pre. 
+  <!DOCTYPE html>  
+  <html>
+      <head>
+          <title>#{get 'title' /}</title>
+          <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+          <link rel="stylesheet" type="text/css" media="screen" href="@{'/public/stylesheets/main.css'}">
+          #{get 'moreStyles' /}
+          <link rel="shortcut icon" type="image/png" href="@{'/public/public/images/favicon.png'}">
+          <script src="@{'/public/javascripts/jquery-1.4.2.min.js'}" type="text/javascript" charset="utf-8"></script>
+          #{get 'moreScripts' /}
+      </head>
+      <body>
+        <header>
+          <h1>&{'site.title'}</h1>
+          <h2>&{'site.subtitle'}</h2>
+          <nav class="menu">
+            <ul>
+          #{if !user}
+              <li><a href="@{Administration.login()}" 
+              		title="&{'home.actions.login.label'}">&{'home.actions.login'}</a>
+          		</li>
+          #{/if}
+          #{if user}
+              <li><a href="@{Secure.logout()}" 
+              		title="&{'home.actions.logout.label'}">&{'home.actions.logout'}</a>
+          		</li>
+          #{/if}
+            </ul>
+          </nav>
+        </header>
+        <section id="content">
+            #{doLayout /}
+          <div class="clear"></div>
+        </section>
+        <footer>
+          <p>&{'site.footer.label'} - &{'site.footer.credits', "http://www.famfamfam.com/lab/icons/silk/"}</p>
+        </footer>
+      </body>
+  </html>
+
+^listing 2.4.4 - refonte de main.html pour intégrer entête, menu et pied de page^
+
+Nous notons dans la ligne :
+
+pre. <link rel="stylesheet" type="text/css" media="screen" href="@{'/public/stylesheets/main.css'}">
+
+qui charge la feuille de styles pour notre site, le chemin vers la feuille de styles est calculée par le tag @{'/public/stylesheets/main.css'}.
+
+Mais regardons de plus près la commande @#{get 'moreStyles' /}@. Celle permettra dans tout sous-template d'ajouter la définition d'une feuille de styles supplémentaire, sans avoir a la référencer systématiqement dans le template de la page.
+
+pre. 
+...
+	#{set 'moreStyles'}
+	<link rel="stylesheet" type="text/css" media="screen" href="@{'/public/stylesheets/xxx.css'}" />
+	#{/set}
+...
+
+^listing 2.4.5 - Ajout d'un style dans un sous template qui sera généré dans le main.html^
+
+Il existe également le @#{get 'moreScripts'}@, procédant de la même manière pour les fichiers javascript.
+
+
+bq. _*note:*_ Notons le copyright en fin de page relatif aux icônes que nous avons embarqué dans nos pages, icônes qui proviennet de "www.famfamfam.com":http://www.famfamfam.com/lab/icons/silk/.
+
+h2. Découpage du modèle de page
+
+Nous allons diviser notre page de la manière suivante: 
+
+pre. 
+  HTML
+    HEADER
+      NAV "menu"
+    SECTION "content"
+    FOOTER
+
+* Le @header@ est l'entête de page, contenant titre, sous-tire, et @nav@, le menu de navigation,
+* La @Section@ "content" contient (sic!!) les données à afficher, ici les fiches des différents jeux vidéo,
+* le @Footer@ est le pied de page, contenant le information traditionnelle de copyright et autres informations utiles (Il est utilisé depuis peu également comme sources d'information pour les fils RSS par exemple).
+
+p=. !{width:640px;}images/part-2/Capture-Home%20-%20All%20platforms%20-%20Chromium.jpg(figure 2.4.2 - Page d'accueil personnalisée)!
+^figure 2.4.2 - Page d'accueil personnalisée^
+
+h2. Fonction de filtrage et de recherche sur la liste des jeux
+
+h3. Filtrage par platforme
+
+Ajoutons maintenant, en plus de la liste de jeux, un moyen de filtrer celle-ci par un type de plateforme. Pour cela, nous devons récupérer une liste des valeurs distinctes du champs @platform@ dans l'entité @Game@.
+
+h4. Modification du Contrôleur
+
+le contrôleur Application doit être modifier pour ajouter une liste de plateformes dans les objets mis à disposition du render. Aussi, nous devons modifier la méthode index() comme ci-dessous:
+
+pre. 
+  static void index(){
+    ...
+    List<Game> platforms = Game.find(
+        "select distinct g.platform "+
+        "from Game g "+
+        "order by g.platform").fetch();
+    ...
+    render(games,platforms);
+  }
+
+^listing 2.4.6 - Ajout de la liste des plateforme de jeux a dessein de filtrage de la liste des jeux^
+
+h4. tag #{platforms /}
+
+Intégrons une nouvelle notion: les tags ! Grâce à ce nouvelle élement, nous allons pouvoir éviter les répétitions de code dans les templates.  Nous souhaitons afficher dans nos page la liste des platformes. Pour cela, créons un nouveau fichier @app/views/tags/platforms.html@:
+
+pre. 
+#{if _userConnected}
+	#{if _items}
+		<h2>&{'home.platforms.title'}</h2>
+		<ul>
+		    <li>
+		    	<a href="@{Application.filterByPlatform('*')}" 
+		    		title="&{'home.platforms.filter.showAll.label'}">
+		    		&{'home.platforms.filter.showAll'}</a>
+    		</li>
+		#{list items:_items, as:'platform'}
+		    <li>
+		    	<a href="@{Application.filterByPlatform(platform)}" 
+		    		title="&{'home.platforms.filter.label', platform}">
+		    		${platform}</a>
+    		</li>
+		#{/list}
+		</ul>
+	#{/if}
+#{/if}
+
+^listing 2.4.7 - Affichage de la liste des plateformes de jeux^
+
+Ensuite, dans le template de page index.html, nous référencerons ce nouveau tag dont la notation est la suivante:
+
+pre. #{platforms items:platforms, userConnected:user}
+
+h4. tag #{games /}
+
+Nous allons en profiter également pour créer un tag pour la liste des jeux, qui nous sera utile dans le paragraphe suivant, concernant la recherche par nom, le fichier du tag sera :@app/views/tags/games.html@.
+
+pre. 
+#{if _userConnected}
+	#{if _items}
+	<h2>&{'home.games.title', _userConnected?.username}</h2>
+	    #{list items:_items, as:'game'}
+		#{set title:'Home / ' + filterPlatform /}		
+		<div class="game" id="game_${game.id}">
+		    <div class="title">
+		    	<span>#${game.id}.</span> 
+		    		<a href="@{Application.details(game.id)}">${game.title}</a>
+    		</div>
+		    <div class="side">
+		        #{if game.cover}
+		        <div class="cover">
+		            <a rel="lightbox" 
+		            	href="/public/public/images/games/${game.platform}/${game.title}/cover/${game.cover}">
+		            	<img alt="&{'game.details.cover.alt', game.title, game.platform}" 
+        					src="/public/public/images/games/${game.platform}/${game.title}/cover/${game.cover}.resized"
+                     		title="${game.platform}/${game.title}"/></a>
+		        </div>
+		        #{/if}
+		        <div class="tags">
+		        </div>
+		    </div>
+		    <div class="info">
+		        <span class="platform">
+				<a class="${game.platform}" 
+					href="@{Application.filterByPlatform(game.platform)}">${game.platform}</a>
+			</span>
+		        #{if game.description}
+		        <div class="bloc">${game.description}</div>
+		        #{/if}
+		    </div>
+		</div>
+	    #{/list}
+	#{/if}
+	#{else}
+	    <p>&{'home.games.noitems'}</p>
+	#{/else}
+#{/if}
+#{else}
+	<p>&{'home.anonymous.welcome.message',"Register/create","Goto to Register form"}</p>
+#{/else}
+
+^listing 2.4.8 - Tag #{games/} présentant la liste des jeux^
+
+bq. _*note:*_ Nous nous proposerons d'enrichir notre liste de jeux avec l'utilisation de Jquery lightbox, un plugin permettant l'affichage modal des images des couvertures des jeux dans un prochain chapître.
+
+h4. template index.html
+
+Ainsi, dans le template @app/views/Application/index.html@ nous intégrons les deux nouveaux tags; la liste des platformes @#{platforms /}@ et la liste des jeux @#{games /}@ :
+
+pre. 
+	#{extends 'main.html' /}
+	<section id="platforms" class="platforms">
+		#{platforms items:platforms, userConnected:user /}
+	</section>
+	<section id="games" class="games">
+		#{games items:games, userConnected:user/}
+	</section>
+
+^listing 2.4.9 - Intégration de nos nouveaux tags #{platforms/} et #{games/}^
+
+Ce qui nous donnera dans notre navigateur:
+
+p=. !{width:640px;}images/part-2/Capture-2.4.3-Platforms_list.jpg(figure 2.4.3 - Intégration de la liste des plateformes dans la page d'accueil)!
+^figure 2.4.3 - Intégration de la liste des platformes dans la page d'accueil^
+
+h3. Recherche par un nom (title) de jeu
+
+Nous souhaitons pouvoir proposer une recherche sur le nom d'un jeu afin de retrouver rapidement la fiche d'un jeu. Nous allons donc réaliser un filtrage sur le titre du jeu (Game.title).
+
+Pour cela, ajoutons un champs de recherche. Editons le fichier du tag @app/views/tags/platforms.html@ pour ajouter un tag input de type texte portant le nom @search@, au tout début de la section platforms :
+
+pre. 
+	#{if _userConnected}
+		<section id="searchForm">
+			<label for="search">&{'home.search.label'}</label><br />
+			<input type="text" name="search" id="search" size="25" maxlength="40"/>
+			<script type="text/javascript">
+			$("#search").keyup(function(event) { // retour simple
+				if(event.keyCode==13){
+					$.post('@{Application.filterByGameTitle()}',
+							{search: $("#search").val()}, 
+							function(data){
+								$('#games').html(data);
+							}
+					);
+				}
+			});
+			</script>
+		</section>
+		#{if _items}
+			...
+		#{/if}
+	#{/if}	
+
+^listing 2.4.10 - champs search dans la section searchForm^
+
+Ainsi, la recherche est poussée via JQuery et son composant @$.post()@. Ceci évite un rechargement complet de la page en ciblant uniquement la zone de la liste des jeux.
+
+Modifions le controleur Application et ajoutons la méthode @filterByGameTitle()@ comme ci-dessous pour réaliser le traitement de recherche:
+
+pre. 
+	/**
+	 * Recherche dans la liste de jeux de l'utilisateur connecté des jeux
+	 * contenant la chaîne <code>search</code> dans le titre du jeu. Se base
+	 * également sur la plateforme sélectionnée et sur l'utilisateur connecté.
+	 * 
+	 * @param search
+	 *            nom ou partie du nom de jeu à rechercher
+	 */
+	public static void filterByGameTitle(String search) {
+		renderArgs.put("search", search);
+		// récupération de l'utilisateur connecté
+		User user = (User) renderArgs.get("user");
+		// recupération de la plateforme (si présente)
+		//String platform = (String) renderArgs.get("filterPlatform");
+		// Constitution de la liste des plateformes distinctes
+		List<Game> platforms = Game.find(
+				"select distinct g.platform from Game g order by g.platform")
+				.fetch();
+		// recherche des jeux correspondant à game.title=%search% et
+		// game.platform=platefom
+		List<Game> games = Game.find(
+				"select g from Game g " + "where lower(g.title) like ? "
+						+ "and g.author=? " + "and g.publish=true "
+						+ "order by g.platform, g.title ",
+				"%" + search.toLowerCase() + "%", user).fetch();
+		// rendu de la page
+		renderTemplate("Application/search.html", games, user, platforms);
+	}
+
+^listing 2.4.11 - recherche de jeux correspondant à la saisie du champs search^
+
+Ainsi, il nous faut créer un template pour le rendu du résultat de la recherche: ce sera @app/views/Application/search.html@
+
+pre. 
+	#{games games:games, user:user /}
+
+^listing 2.4.12 - template d'affichage du resultat de recherche: search.html^
+
+Simple non ?
+
+Nous obtenons alors le rendu suivant dans notre navigateur:
+
+p=. !{width:640px;}images/part-2/Capture-2.4.4-Platforms_filtering_and_search.jpg(figure 2.4.4 - Recherche par titre et filtre sur les plateformes)!
+^figure 2.4.4 - Recherche par titre et filtre sur les plateformes^
+

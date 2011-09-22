@@ -1,0 +1,59 @@
+h1. Création d’un tag
+
+Qui n'a pas pester contre la recopie de nombreuse fois d'une même portion de code HTML dans une page, destiné au rendu d'un objet ?
+Avec la possibilité de créer des tags aussi facilement qu'on écrit une vue dans Play !, il serait réellement dommage de passer à côté.
+
+h2. Définition
+
+Le tag un simple fichier HTML dans le répertoire @views/tags@. Le nom du fichier va fixer le nom du tag: @view/tags/mytag.html@ donnera accès au tag « mytag ».
+
+pre. 
+ mon tag
+ 
+
+h2. Appel
+
+L'appel à notre tag se fera via la balise @#{mytag /}@
+Dans notre page HTML :
+
+pre. 
+ <p>Mon tag de rendu</p>
+ #{mytag /}
+ 
+
+h2. Passage de paramètres
+
+Si nous souhaitons passer des paramètres pour obtenir un rendu dynamique, dans le fichier de définition du tag, il suffit d'ajouter les balises de votre choix, préfixées d'un caractère @_@(souligné, ou underscore pour les anglophones) :
+
+pre. 
+ mon tag avec un paramètre : _parameter
+ 
+L'appel à ce tag sera :
+
+pre. 
+ <p>Mon tag de rendu</p>
+ #{mytag parameter :'premier paramètre' /}
+
+Si nous souhaitons passer un objet en paramètre, par exemple un objet User, la définition du tag sera @app/views/tags/userdetails.html@ :
+
+pre. 
+<div class='userdetails'>
+	<h1>Utilisateur</h1>
+	<ul>
+		<li><strong>nickname :</strong> _user.username</li>
+		<li><strong>prénom :</strong> _user.firstname</li>
+		<li><strong>nom :</strong> _user.lastname</li>
+		<li><strong>mail :</strong> _user.email</li>
+	</ul>
+</div>
+
+et l'appel à ce tag devient : (@apps/views/Application/userdetails.html@)
+
+pre. 
+<p>Utilisateur connecté :</p>
+#{userdetails user:connectedUser /}
+
+où @connectedUser@ est un objet de type @User@, représentant l'utilisateur connecté. Et ci-dessous découvrons le rendu obtenu :
+
+p=. !{width:640px}images/part-9/Capture-9.1.3-creation%20dun%20tag.jpg(figure 9.1.1 – Tag présentant les détails d'un utilisateur)!
+^figure 9.1.1 – Tag présentant les détails d'un utilisateur!^

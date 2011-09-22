@@ -1,0 +1,13 @@
+h1. Préface
+
+Le but de ce livre est de présenter le framework « Play! » dans le cadre d’un projet mené depuis le cahier des charges jusqu'au déploiement sur un serveur de production Java. Les problématiques d'environnement de développement, de versioning, et de packaging seront également abordées.
+
+L’application développée ici, « myplayapp », consistera en la gestion et le partage de listes de jeux vidéo, accessibles depuis internet.
+
+Elle permettra la gestion des personnes contributrices, des jeux et des listes, et ce suivant des droits d'accès, des liste de diffusions et de workflow, mis en place dans le cadre  de l'écriture de module d'extension.
+
+L'application web sera accessible et depuis des ordinateurs de bureau ou portable, et également sur mobile, grâce à l'écriture d'un plugin de rendu pour le « Play!framework » qui mettra en place un routage de thème en fonction de la plate-forme de lecture (mobile ou navigateurs standard).
+
+Ce projet sera accompagné durant toute sa réalisation d’une série d’articles publiés sur le blog de l'auteur: "www.mcgivrer.fr":http://www.mcgivrer.fr et seront également présents dans le repository GIT de l’application ("http://github.com/mcgivrer/myplayapp":http://github.com/mcgivrer/myplayapp).
+
+Bienvenu à bord de cet ouvrage, et bonne lecture !

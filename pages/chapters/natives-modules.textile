@@ -1,0 +1,8 @@
+h2. Les Modules natifs
+
+Comme mentionné précédemment, nous souhaitons mettre en oeuvre deux modules du framework Play! Ces modules, pourtant natifs, ne sont pas activés par défaut. 
+
+Nous allons le faire de ce pas.
+
+* [[Mise en place du module CRUD]]
+* [[Mise en place du module Secure]]

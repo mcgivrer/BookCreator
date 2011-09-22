@@ -1,0 +1,14 @@
+h1. Web Service REST
+
+h2. Utilisation de l'Amazon Product Advertising API
+
+Nous souhaitons ici permettre la recherche de produit au sein de l'immense base de données de produits proposés par AMAZON
+afin de rappatrier les informations et images d'un jeu, afin de l'intégrer à notre propre application.
+
+L'opération se fera en plusieurs temps:
+
+# la recherche via les opérations @ItemSearch@ et @ItemLooku	p@ de la Product Advertising API,
+# le parcours des items retournés et la sélection du produit recherché,
+# Le choix de l'image représentant le jeu (jaquette ou cover) parmi celles trouvées.
+
+

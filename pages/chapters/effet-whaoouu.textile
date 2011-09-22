@@ -1,0 +1,327 @@
+h1. L'effet Waouh !
+
+On ne peut pas parler d'un framework sans passer par la case « Hello World ! » Aussi, nous allons commencer par découvrir en quelques clics et quelques touches appuyées comment nous pouvons réaliser notre première application « Proof of concept » en quelques minutes.
+
+h2. Installation
+
+h3. Sun JDK 6
+
+Il nous faut d'abord nous assurer qu'un JDK 1.6 soit bien installé sur notre machine. Si ce n'est pas le cas, rendons nous sur le site d'Oracle :
+ "http://www.oracle.com/technetwork/java/javase/downloads/jdk-6u25-download-346242.html":http://www.oracle.com/technetwork/java/javase/downloads/jdk-6u25-download-346242.html
+
+p=. !{width:640px;}images/part-0/oracle-sun-jdk-download.png(figure 0.1 - Téléchargement du JDK 1.6)!
+^figure 0.1 - Téléchargement du JDK 1.6^
+
+
+Installer le JDK à l'endroit par défaut. Sous Windows c'est communément @« C:\program files\Java\ »@. 
+
+Sous Linux, il sera installé en fonction de la distribution choisie, noter cependant que la plus part du temps, la variable système @JAVA_HOME@ n'est pas positionnée, et qu'il est impératif de le faire pour avoir un environnement Java sain.
+
+h3. Play ! framework
+
+Ensuite, nous devons procéder à l'installation du framework à proprement parler, Play!framework. Accédons à "http://www.playframework.org/download/":http://www.playframework.org/download/
+
+p=. !{width:640px;}images/part-0/playframework-download.png(figure 0.2 - Téléchargement du framework Play!)!
+^figure 0.2 - Téléchargement du framework Play!^
+
+D'un clic agile sur la version 1.2.1 (dernière version au jour du début de la rédaction de ce livre), nous lançons le téléchargement de l'archive zip vers l'emplacement de notre choix.
+
+Enfin, décompressons l'archive dans le répertoire de notre choix, par exemple @« c:\tools\play »@ sous Windows, ou bien, « /home/[user]/tools/play » sous linux.
+
+Nous obtenons dans le répertoire l'arborescence ci-dessous :
+
+p=. !{width:640px;}images/part-0/Capture-play.png(figure 0.3 - Structure du répertoire d'installation de Play!)!
+^figure 0.3 - Structure du répertoire d'installation de Play!^
+
+Nous noterons la présence des répertoires @« documentation »@, @« framework »@, @« modules »@ et @« samples-and-tests »@ qui sont respectivement, et comme leur nom l'indique, la documentation (en ligne, nous verrons plus tard) de la version courante, les bibliothèques du framework et ses modules proposés par défaut et enfin, une série de démonstration et de tests du dit framework.
+
+h2. Action !
+
+Trêve de bavardage,lançons nous éperdument dans l'action et créons une application !
+Ouvrons un terminal shell (sous linux ou MacOS X), ou une console de commandes sous windows, et commençons !
+
+pre. 
+	mkdir c:\projects
+	cd c:\projects
+	c:\tools\play\play new wahou
+	~        _            _ 
+	~  _ __ | | __ _ _  _| | 
+	~ | '_ \| |/ _' | || |_| 
+	~ |  __/|_|\____|\__ (_) 
+	~ |_|            |__/   
+	~ 
+	~ play! 1.2.1, http://www.playframework.org 
+	~ 
+	~ The new application will be created in /home/frederic/Projects/Java/play/wahou 
+	~ What is the application name? [wahou] 
+	~ 
+	~ OK, the application is created. 
+	~ Start it with : play run wahou 
+	~ Have fun! 
+
+Noter la demande à la création de la confirmation du nom de l'application.
+Lançons notre belle application nouvellement créée (et oui, il n'y a rien d'autre à faire pour créer une application) :
+
+pre. 
+	cd whaou
+	c:\tools\play\play run
+	~        _            _ 
+	~  _ __ | | __ _ _  _| | 
+	~ | '_ \| |/ _' | || |_| 
+	~ |  __/|_|\____|\__ (_) 
+	~ |_|            |__/   
+	~ 
+	~ play! 1.2.1, http://www.playframework.org 
+	~ 
+	~ Ctrl+C to stop 
+	~ 
+	Listening for transport dt_socket at address: 8000 
+	23:18:12,810 INFO  ~ Starting /home/frederic/Projects/Java/play/wahou 
+	23:18:14,064 WARN  ~ You're running Play! in DEV mode 
+	23:18:14,227 INFO  ~ Listening for HTTP on port 9000 (Waiting a first request to start) ...
+
+Puis, rendons nous dans notre browser web préféré, et ouvrons l'url "http://localhost:9000/":http://localhost:9000/
+
+Et voilà !  La page par défaut est affichée, contenant moult conseils et informations.
+
+p=. !{width:640px;}images/part-0/play-first-app.png(figure 0.4 - Première application !)!
+^figure 0.4 - Première application !^
+
+OK, c'est bien beau,mais nous ne voyons pas le « HelloWorld ! » tant attendu.
+
+Connaissez-vous la différence entre page statique et page dynamique ?
+
+Et bien abordons la par l'exemple.
+
+h3. Page statique
+
+Qu'à cela ne tienne, éditons le fichier @« app/views/Application/index.html »@
+
+pre. 
+    #{extends 'main.html' /} 
+    #{set title:'Home' /} 
+    #{welcome /}
+
+Remplaçons la ligne @#{welcome/}@ par la ligne comme indiqué ci-dessous :
+
+pre. 
+    #{extends 'main.html' /} 
+    #{set title:'Home' /} 
+    <h1>Hello World !</h1>
+
+rafraichissons la page web "http://localhost:9000/":http://localhost:9000/
+
+p=. !{width:640px;}images/part-0/Capture-Home - Mozilla Firefox.png(figure 0.5 - Hello World !, le bien nommé)!
+^figure 0.5 - Hello World !, le bien nommé^
+
+Alors, la mise en oeuvre du framework n'est-elle pas super efficace ?  Temps d'installation, presque 5 minutes (hors temps de téléchargement, bien entendu).
+
+h3. Page Dynamique
+
+Si nous allons un peu plus loin, nous pouvons très rapidement obtenir une page dynamique.
+
+Pour cela, éditions le fichier @"app/Application.java"@, afin d'y ajouter la définition de variables qui seront utilisable depuis notre template de rendu:
+
+pre. 
+package controllers;
+.
+import play.Logger;
+import play.Play;
+import play.i18n.Messages;
+import play.mvc.Controller;
+.
+public class Application extends Controller {
+  public void index(){
+   	renderArgs.put("userfirstname", "Frédéric");
+   	renderArgs.put("userlastname", "Delorme");
+   	render();
+  }
+}
+
+et côté template de rendu, modifions @app/views/Application/index.html@ pour utiliser ces variables intialisée dans la méthode @Application.index()@: 
+
+pre. 
+#{extends 'main.html' /}
+#{set title:'Home' /}
+.
+<h1>Hello ${userfirstname} ${userlastname}  !</h1>
+
+
+Et rafraichissons notre navigateur sur l'url "http://localhost:9000/":http://localhost:9000/
+
+p=. !{width:640px;}images/part-0/Capture-Home-2.png(figure 0.6 - Hello Frédéric Delorme ! un peu de dynamisme dans nos pages)!
+^figure 0.6 - Hello Frédéric Delorme ! un peu de dynamisme dans nos pages^
+
+Nous avons réalisé notre première page dynamique avec Play!
+
+Passons maintenant aux choses sérieuses, et essayons d'afficher des informations provnant d'une base de donées.
+
+h2. Persistance ?
+
+Créons un nouveau projet, qui cette fois va nous permettre de découvrir l'aspect persistance avec les entités.
+
+pre. 
+frederic@nostromo6:~/Projects/Java/play$ play new whaou2
+~        _            _ 
+~  _ __ | | __ _ _  _| |
+~ | '_ \| |/ _' | || |_|
+~ |  __/|_|\____|\__ (_)
+~ |_|            |__/   
+~
+~ play! 1.2.1, http://www.playframework.org
+~
+~ The new application will be created in /home/frederic/Projects/Java/play/whaou2
+~ What is the application name? [whaou2] 
+~
+~ OK, the application is created.
+~ Start it with : play run whaou2
+~ Have fun!
+~
+
+OK, notre projet est prêt à l'emploi.
+
+Allons voir du côté du répertoire "app/models"
+
+pre. 
+├── app
+│   ├── controllers
+│   ├── models
+│   └── views
+├── conf
+├── eclipse
+├── lib
+├── public
+└── test
+
+^listing 0.7 - Arborescence d'un projet play^
+
+et ouvrons un nouveau fichier pour créer la classe @Article.java@:
+
+pre. 
+package models;
+import play.*;
+import play.db.jpa.*;
+import javax.persistence.*;
+import java.util.*;
+@Entity
+public class Article extends Model {
+}
+
+Ajoutons quelques attributs à cette classe modélisant des articles:
+
+pre. 
+@Entity
+public class Article extends Model {
+	@Required
+	public String title;
+	public String chapo;
+	@Required
+	public String corps;
+	@Required
+	public String author;
+	public Date dateCreation = new Date();
+	@Required
+	public boolean articlePublie = false;
+}
+
+On notera plusieurs choses intéressantes:
+
+* les annotations:
+** @Entity : permet de déclarer la classe comme  sauvegarder son contenu en base de données;
+** @Required : indique les champs qui sont obligatoires (requis),
+* les valeur par défaut:
+** la date de création (dateCreation) est initialisée à la date du jour en Java,
+** le flag de publication (articlePublie) est défini à false par défaut (non publié donc).
+
+Pour que la persistance joue son rôle, il faut déclarer une base de données. Pour cela, ouvrons le fichier @conf/application.conf@ et aller vers les lignes : 
+
+pre. 
+# Database configuration
+# ~~~~~ 
+# Enable a database engine if needed.
+#
+# To quickly set up a development database, use either:
+#   - mem : for a transient in memory database (H2 in memory)
+#   - fs  : for a simple file written database (H2 file stored)
+# db=mem
+#
+# To connect to a local MySQL5 database, use:
+# db=mysql:user:pwd@database_name
+#
+
+et éditons la ligne @# db=mem@ et remplaçons la par: @db=fs@. Noteons la disparition du caractère de début de ligne "#" indiquant un commentaire.
+
+Ensuite il nous faut des valeurs dans cette base de données. Créons le fichier @conf/data.yml@:
+
+pre. 
+Article(one):
+    titre: Mon premier article
+    chapo: C'est notre premiere publication dans ce blog improvisé.
+    corps: L'artivlr ici présent existe pour illustrer la mise en base de données d'informations issues d'objet Java annoté comme @Entity.
+    author: frederic
+    dateCreation: 2011-07-04
+    articlePublie: true
+
+Nous devons ajouter une tâche spéciale pour que notre application charge les données du fichier YML sir elle n'existe pas déjà dans la base de données: nous allons ajouter une classe de démarrage:
+
+Créons une nouvele classe appelée @Bootstrap@ (par exemple) et insérer le code ci-dessous:
+
+pre. 
+/**
+ * Opérations de démarrage de l'application.
+ * @author Frédéric Delorme<frederic.delorme@gmail.com>
+ *
+ */
+@OnApplicationStart
+public class Bootstrap extends Job{
+	/**
+	 * Chargement des données d'initialisation au 
+	 * démarrage de l'application ci la table <code>Article </code>est vide.
+	 */
+	public void doJob(){
+		if(Article.findAll().isEmpty()){
+			Fixtures.loadModels("conf/data.yml");
+		}
+	}	
+}
+
+Nous noterons l'annotation @ @OnApplicationStart@ qui permet l'éxecution de ceJob uniquement au démarage de l'application. Notons également la méthode @doJob()@ qui vérifie l'absence d'article et le cas échéant, charge notre fichier de données intiales.
+
+Enfin, allons dans le controleur principale, comme dans le précédent exemple, et éditons la méthode @Index()@:
+
+pre. 
+/**
+ * Affiche l'ensemble des articles de type <code>Article</code>.
+ */
+public static void index() {
+	List<Article> articles = Article.findAll();
+    render(articles);
+}
+
+Enfin, allons éditer le template @index.html@ pour préciser l'affichage de nos articles:
+
+pre. 
+#{extends 'main.html' /}
+#{set title:'Home' /}
+#{list items:articles, as:'article'}
+<div class="article">
+	<h1>${article.titre}</h1>
+	<div class="chapo">${article.chapo}</div>
+	<div class="corps">${article.corps}</div>
+	<div class="info">Crée le: ${article.dateCreation}, par: ${article.author}</div>
+</div>
+#{/list}
+
+
+Voilà, nous y sommes, lançons notre application par un magique :
+
+pre. 
+> play run
+ 
+L' application est play prête à "browser": "http://localhost:9000/":http://localhost:9000/
+
+p=. !{width:640px;}images/part-0/Capture-wahou2-1.png(figure 0.7 - la persistance dans nos pages)!
+^figure 0.7 - la persistance dans nos pages^
+
+p=. !{width:640px;}images/part-0/Capture-wahou2.png(figure 0.8 - Le template enrichi, décortiqué par l'inspecteur de Chromium)!
+^figure 0.8 - Le template enrichi (via l'inspecteur de Chromium)^
