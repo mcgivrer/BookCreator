@@ -136,8 +136,6 @@ public class Application extends Controller {
 				while (scan2.hasNextLine()) {
 					chapter.append((scan2.nextLine().toString() + NL));
 				}
-				// fullBook.append(NL + chapter.toString() + NL + "<hr />" +
-				// NL);
 
 				String page = NL + convertToHtml(chapter.toString()) + NL
 						+ "<hr />";
