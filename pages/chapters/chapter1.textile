@@ -1,0 +1,37 @@
+h1. Chapter 1 - The First Step
+
+This small book to demonstrate the possibilitites offer by this small BookCreator play applicaiton.
+Developped for my  own usage,I've try to implement some easy to use feature.
+
+A @pages/@ directory contains all text data of the book and a @structure.txt@ file.
+
+h2. Book Structure
+
+This @structure.txt@ file is the plan of your publication.
+
+| *Tag*       | *Description*                        |
+| -           | A simple dash allow a page break     |
+| {toc}       | Generate the Table of content        |
+| {cover}     | insert a images/book/cover.png       |
+| {backcover} | insert a images/book/backcover.png   |
+| anytext     | insert the anytext.textile file      |
+
+a sample file:
+
+pre.
+{cover}
+title
+-
+{toc}
+-
+chapter1
+chapter2
+-
+{backcover}
+
+
+h2. Chapters
+
+Each chapter is a "Textile": file. where you can deploy al your imagination to create some beautiful content with the Textile possibilities.
+
+
